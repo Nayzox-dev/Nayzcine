@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvrez - Nayzcine / votre prochain site de streaming préféré !">
+    <title>Nayzcine - Streaming</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Barre de navigation flottante -->
+    <header class="navbar">
+        <div class="logo">Nayzcine</div>
+        <nav class="menu">
+            <a href="#">Films</a>
+            <a href="#">Séries</a>
+            <a href="#">Nouveautés</a>
+        </nav>
+        <div class="search-container">
+            <input type="text" id="search" placeholder="🔍 Rechercher un film...">
+            <div id="search-results"></div>
+        </div>
+    </header>
+
+    <!-- Sections catégories -->
+    <main id="categories">
+        <section class="category">
+            <h2>Nouveautés</h2>
+            <div class="movies-row" id="new-releases"></div>
+        </section>
+        <section class="category">
+            <h2>Films</h2>
+            <div class="movies-row" id="films"></div>
+        </section>
+        <section class="category">
+            <h2>Séries</h2>
+            <div class="movies-row" id="series"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
