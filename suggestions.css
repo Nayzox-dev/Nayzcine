@@ -1,0 +1,163 @@
+/* 🎬 Styles généraux */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #0a0a0a;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* 🎯 NAVBAR */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    max-width: 1400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background: rgba(0, 0, 0, 0.85);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+}
+
+.logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: red;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.1);
+}
+
+.menu {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu a:hover,
+.menu a.active {
+    background: red;
+    box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.6);
+    transform: scale(1.05);
+}
+
+/* 🔍 BARRE DE RECHERCHE */
+.search-container {
+    position: relative;
+    width: 280px;
+}
+
+#search {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    background: #222;
+    color: white;
+    border: 1px solid #555;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+    cursor: pointer;
+}
+
+#search:focus {
+    border: 1px solid red;
+    outline: none;
+}
+
+/* 📝 FORMULAIRE DE SUGGESTIONS */
+#suggestions {
+    margin-top: 120px;
+    padding: 40px;
+    text-align: center;
+}
+
+.category h2 {
+    font-size: 2rem;
+    color: white;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+#suggestion-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 450px;
+    margin: auto;
+}
+
+#suggestion-form input,
+#suggestion-form select,
+#suggestion-form textarea {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    background: #222;
+    color: white;
+    border: 1px solid #555;
+}
+
+#suggestion-form select {
+    cursor: pointer;
+}
+
+#suggestion-form input:focus,
+#suggestion-form select:focus,
+#suggestion-form textarea:focus {
+    border: 1px solid red;
+    outline: none;
+}
+
+#suggestion-form button {
+    padding: 12px 18px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    background: red;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#suggestion-form button:hover {
+    background: darkred;
+}
+
+/* ✅ MESSAGE DE CONFIRMATION */
+#suggestion-response {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: lightgreen;
+}

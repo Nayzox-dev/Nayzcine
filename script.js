@@ -1,5 +1,4 @@
 let allMovies = [];
-const defaultImage = "image.jpg"; // ✅ Image locale dans le dossier du projet
 
 async function loadMovies() {
     const response = await fetch('fsa.json');
@@ -9,39 +8,20 @@ async function loadMovies() {
     const newReleases = movies.slice(-10);
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
 
-    // On filtre les films et séries qui ont une image valide
+    // Filtrer les films et séries avec une image valide uniquement
     let films = shuffleArray(movies.filter(movie => isFilm(movie) && hasValidImage(movie)));
     let series = shuffleArray(movies.filter(movie => isSeriesOrAnime(movie) && hasValidImage(movie)));
-
-    // Compléter avec des films/séries avec image par défaut si besoin
-    films = completeList(films, movies, "Film");
-    series = completeList(series, movies, "Série");
 
     displayMovies(newReleases, "new-releases");
     displayMovies(films, "films");
     displayMovies(series, "series");
 
-    setupSearch(); // ✅ Barre de recherche opérationnelle
+    setupSearch();
 }
 
 // 📌 Vérifier si un film/série a une image valide
 function hasValidImage(movie) {
     return movie.media && movie.media.trim() !== "" && movie.media.startsWith("http");
-}
-
-// 📌 Compléter la liste si besoin en remplaçant les films/séries sans image
-function completeList(validList, allMovies, category) {
-    let needed = 20 - validList.length;
-    if (needed > 0) {
-        let extraMovies = allMovies.filter(movie => movie.category.toLowerCase() === category.toLowerCase() && !hasValidImage(movie));
-        while (needed > 0 && extraMovies.length > 0) {
-            let replacement = extraMovies.shift();
-            replacement.media = defaultImage; // ✅ Remplace par l’image locale
-            validList.push(replacement);
-            needed--;
-        }
-    }
-    return validList.slice(0, 20);
 }
 
 // 📌 Détection FILM
@@ -59,26 +39,53 @@ function displayMovies(movieList, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = "";
 
+    let displayedMovies = 0;
+    const maxMovies = 20;
+
     movieList.forEach(movie => {
+        if (!hasValidImage(movie) || displayedMovies >= maxMovies) return;
+
         const movieDiv = document.createElement("div");
         movieDiv.classList.add("movie-card");
         movieDiv.innerHTML = `
-            <img src="${movie.media}" alt="${movie.title}" 
-                 onerror="this.onerror=null;this.src='${defaultImage}';">
+            <img src="${movie.media}" alt="${movie.title}" onerror="this.parentNode.remove(); replaceMovie('${containerId}')">
             <h3>${movie.title}</h3>
         `;
 
         movieDiv.addEventListener("click", () => handleClick(movie));
-
         container.appendChild(movieDiv);
+        displayedMovies++;
     });
+
+    // Compléter les films manquants
+    while (displayedMovies < maxMovies) {
+        replaceMovie(containerId);
+        displayedMovies++;
+    }
+}
+
+// 📌 Fonction pour remplacer un film manquant
+function replaceMovie(containerId) {
+    const container = document.getElementById(containerId);
+    const replacementMovie = allMovies.find(movie => hasValidImage(movie));
+
+    if (replacementMovie) {
+        const movieDiv = document.createElement("div");
+        movieDiv.classList.add("movie-card");
+        movieDiv.innerHTML = `
+            <img src="${replacementMovie.media}" alt="${replacementMovie.title}">
+            <h3>${replacementMovie.title}</h3>
+        `;
+        movieDiv.addEventListener("click", () => handleClick(replacementMovie));
+        container.appendChild(movieDiv);
+    }
 }
 
 function handleClick(movie) {
     const links = extractAllLinks(movie.description);
 
     if (isFilm(movie)) {
-        window.location.href = links[0]; 
+        window.location.href = cleanURL(links[0]); 
     } else if (isSeriesOrAnime(movie)) {
         showEpisodesModal(movie.title, links);
     } else {
@@ -86,10 +93,15 @@ function handleClick(movie) {
     }
 }
 
+// 📌 Nettoyer les URL (supprime les parenthèses à la fin)
+function cleanURL(url) {
+    return url.replace(/\)$/, "");
+}
+
 // 📌 Extraction de **TOUS** les liens présents dans une description
 function extractAllLinks(description) {
     const linkRegex = /(https?:\/\/[^\s]+)/g;
-    return description.match(linkRegex) || [];
+    return description.match(linkRegex) ? description.match(linkRegex).map(cleanURL) : [];
 }
 
 // 📌 Affichage du pop-up des épisodes
@@ -106,7 +118,7 @@ function showEpisodesModal(title, episodeLinks) {
             <h2>${title}</h2>
             <div class="episodes-list">
                 ${episodeLinks.map((url, index) => `
-                    <button class="episode-btn" onclick="window.location.href='${url}'">
+                    <button class="episode-btn" onclick="window.location.href='${cleanURL(url)}'">
                         Épisode ${index + 1}
                     </button>
                 `).join("")}
@@ -136,7 +148,7 @@ function setupSearch() {
         if (query.length === 0) return;
 
         const results = allMovies
-            .filter(movie => movie.title.toLowerCase().includes(query) && hasValidImage(movie)) // ✅ Vérifie que l'image est valide
+            .filter(movie => movie.title.toLowerCase().includes(query) && hasValidImage(movie)) 
             .slice(0, 5);
         
         if (results.length > 0) {
@@ -144,8 +156,7 @@ function setupSearch() {
                 const resultItem = document.createElement("div");
                 resultItem.classList.add("search-item");
                 resultItem.innerHTML = `
-                    <img class="small-thumbnail" src="${movie.media}" alt="${movie.title}" 
-                         onerror="this.onerror=null;this.src='${defaultImage}';">
+                    <img class="small-thumbnail" src="${movie.media}" alt="${movie.title}">
                     <span>${highlightMatch(movie.title, query)}</span>
                 `;
                 resultItem.addEventListener("click", () => handleClick(movie));

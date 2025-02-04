@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Faites vos suggestions pour Nayzcine !">
+    <title>Suggestions - Nayzcine</title>
+    <link rel="stylesheet" href="suggestions.css">
+</head>
+<body>
+
+    <!-- Barre de navigation flottante -->
+    <header class="navbar">
+        <div class="logo">Nayzcine</div>
+        <nav class="menu">
+            <a href="index.html">Nouveauté</a>
+            <a href="suggestions.html" class="active">Suggestions</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="search-container">
+            <input type="text" id="search" placeholder="🔍 Rechercher...">
+            <div id="search-results"></div>
+        </div>
+    </header>    
+
+    <!-- Section des suggestions -->
+    <main id="suggestions">
+        <section class="category">
+            <h2>Faites une suggestion</h2>
+            <form id="suggestion-form">
+                <input type="text" id="suggestion-title" placeholder="Nom du film ou série" required>
+
+                <select id="suggestion-type" required>
+                    <option value="" disabled selected>Film ou Série ?</option>
+                    <option value="Film">Film</option>
+                    <option value="Série">Série</option>
+                </select>
+
+                <textarea id="suggestion-message" placeholder="Pourquoi voulez-vous voir ce contenu ?" required></textarea>
+                <button type="submit">Envoyer</button>
+            </form>
+            <div id="suggestion-response"></div>
+        </section>
+    </main>
+
+    <script src="suggestions.js"></script>
+</body>
+</html>
