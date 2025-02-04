@@ -92,11 +92,20 @@ body {
     outline: none;
 }
 
-/* 📝 FORMULAIRE DE SUGGESTIONS */
+/* 📝 FORMULAIRES (Suggestions et Report) */
 #suggestions {
     margin-top: 120px;
     padding: 40px;
     text-align: center;
+}
+
+.category {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(255, 0, 0, 0.4);
+    max-width: 500px;
+    margin: auto;
 }
 
 .category h2 {
@@ -115,6 +124,14 @@ body {
     margin: auto;
 }
 
+#suggestion-form label {
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+}
+
 #suggestion-form input,
 #suggestion-form select,
 #suggestion-form textarea {
@@ -126,6 +143,12 @@ body {
     background: #222;
     color: white;
     border: 1px solid #555;
+    margin-top: 5px;
+}
+
+#suggestion-form textarea {
+    height: 100px;
+    resize: none;
 }
 
 #suggestion-form select {
@@ -140,6 +163,7 @@ body {
 }
 
 #suggestion-form button {
+    width: 100%;
     padding: 12px 18px;
     font-size: 1.2rem;
     font-weight: bold;
@@ -160,4 +184,5 @@ body {
     margin-top: 20px;
     font-size: 1.2rem;
     color: lightgreen;
+    display: none;
 }

@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Faites vos suggestions pour Nayzcine !">
-    <title>Suggestions - Nayzcine</title>
+    <meta name="description" content="Signalez un problème avec un film ou une série sur Nayzcine">
+    <title>Signaler un problème - Nayzcine</title>
     <link rel="stylesheet" href="suggestions.css">
 </head>
 <body>
@@ -14,8 +14,8 @@
         <div class="logo">Nayzcine</div>
         <nav class="menu">
             <a href="index.html">Nouveauté</a>
-            <a href="suggestions.html" class="active">Suggestions</a>
-            <a href="report.html">Signaler</a>
+            <a href="suggestions.html">Suggestions</a>
+            <a href="report.html" class="active">Signaler</a>
         </nav>
         <div class="search-container">
             <input type="text" id="search" placeholder="🔍 Rechercher...">
@@ -26,7 +26,7 @@
     <!-- Section des suggestions -->
     <main id="suggestions">
         <section class="category">
-            <h2>Faites une suggestion</h2>
+            <h2>Signaler un problème</h2>
             <form action="https://formspree.io/f/xgvoygae" method="POST" id="suggestion-form">
                 <label>
                     Nom du film ou série :
@@ -42,12 +42,17 @@
                     </select>
                 </label>
 
+                <label>
+                    Décrire le problème :
+                    <textarea name="problem_description" placeholder="Expliquez ce qui ne fonctionne pas..." required></textarea>
+                </label>
+
                 <button type="submit">Envoyer</button>
             </form>
 
             <!-- Message de confirmation -->
             <div id="suggestion-response" style="display: none; color: lightgreen; margin-top: 15px; font-size: 1.2rem;">
-                ✅ Votre suggestion a été envoyée ! Elle sera ajoutée dès que possible dans <strong>Nouveauté</strong> !
+                ✅ Le problème a bien été envoyé, il sera réglé dès que possible !
             </div>
         </section>
     </main>

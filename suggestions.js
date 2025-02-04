@@ -1,87 +1,60 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // Charger les suggestions sauvegardées au chargement de la page
-    loadSuggestions();
+    // 🔥 Désactiver la saisie dans la barre de recherche
+    const searchInput = document.getElementById("search");
+    searchInput.setAttribute("readonly", true);
+    searchInput.style.cursor = "pointer"; // Curseur pointeur pour indiquer un bouton
 
-    // Formulaire de suggestions
-    document.getElementById('suggestion-form').addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        const title = document.getElementById('suggestion-title').value;
-        const type = document.getElementById('suggestion-type').value;
-        const message = document.getElementById('suggestion-message').value;
-
-        const suggestionData = `"${title}" , "${type}" , "${message}"`;
-
-        // Sauvegarder en local dans le navigateur
-        saveSuggestion(suggestionData);
-
-        document.getElementById('suggestion-response').innerHTML = `<p style="color: lightgreen;">Suggestion enregistrée, Elle sera ajoutée dans l'onglet "Nouveautés" dès que possible!</p>`;
-        this.reset();
+    // ✅ Empêcher le focus sur mobile (évite l'affichage du clavier)
+    searchInput.addEventListener("focus", function (event) {
+        event.target.blur();
     });
 
-    // Convertit la barre de recherche en bouton redirigeant vers index.html
-    document.getElementById("search").addEventListener("click", function () {
+    // 🚀 Rediriger vers "nouveauté.html" au clic
+    searchInput.addEventListener("click", function () {
         window.location.href = "index.html";
     });
 
-    // Configuration de la barre de recherche
-    setupSearch();
-});
+    // 📌 Gestion du formulaire de suggestions
+    document.getElementById("suggestion-form").addEventListener("submit", function (event) {
+        event.preventDefault();
 
-// Sauvegarde les suggestions dans localStorage
-function saveSuggestion(suggestion) {
-    let suggestions = localStorage.getItem("suggestions");
-    suggestions = suggestions ? JSON.parse(suggestions) : [];
-    suggestions.push(suggestion);
-    localStorage.setItem("suggestions", JSON.stringify(suggestions));
-}
+        const title = document.getElementById("suggestion-title").value;
+        const type = document.getElementById("suggestion-type").value;
+        const message = document.getElementById("suggestion-message").value;
 
-// Charge les suggestions enregistrées (optionnel : affichage console)
-function loadSuggestions() {
-    let suggestions = localStorage.getItem("suggestions");
-    if (suggestions) {
-        console.log("Suggestions enregistrées :", JSON.parse(suggestions));
-    }
-}
+        const suggestionData = { title, type, message };
 
-function setupSearch() {
-    const searchInput = document.getElementById("search");
-    const resultsContainer = document.getElementById("search-results");
+        // 📩 Envoi des données au serveur
+        fetch("http://localhost:3000/save-suggestion", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(suggestionData),
+        })
+        .then(response => response.text())
+        .then(result => {
+            document.getElementById("suggestion-response").innerHTML =
+                `<p style="color: lightgreen;">Suggestion enregistrée ! Elle sera ajoutée dans l'onglet "Nouveautés" dès que possible.</p>`;
+            this.reset();
+        })
+        .catch(error => {
+            console.error("Erreur :", error);
+            document.getElementById("suggestion-response").innerHTML =
+                `<p style="color: red;">Erreur lors de l'enregistrement.</p>`;
+        });
+    });
 
-    searchInput.addEventListener("input", function () {
-        const query = this.value.toLowerCase().trim();
-        resultsContainer.innerHTML = "";
-        resultsContainer.style.display = "none";
-
-        if (query.length === 0) return;
-
-        fetch('fsa.json')
-            .then(response => response.json())
-            .then(movies => {
-                const results = movies
-                    .filter(movie => movie.title.toLowerCase().includes(query))
-                    .slice(0, 5);
-
-                if (results.length > 0) {
-                    results.forEach(movie => {
-                        const resultItem = document.createElement("div");
-                        resultItem.classList.add("search-item");
-                        resultItem.innerHTML = `<span>${movie.title}</span>`;
-                        resultItem.addEventListener("click", () => {
-                            searchInput.value = movie.title;
-                            resultsContainer.style.display = "none";
-                        });
-
-                        resultsContainer.appendChild(resultItem);
-                    });
-                    resultsContainer.style.display = "block";
+    // 📌 Charger et afficher les suggestions
+    function loadSuggestions() {
+        fetch("http://localhost:3000/get-suggestions")
+            .then(response => response.text())
+            .then(data => {
+                const suggestionsContainer = document.getElementById("all-suggestions");
+                if (suggestionsContainer) {
+                    suggestionsContainer.innerHTML = `<h3>Suggestions des utilisateurs :</h3><pre>${data}</pre>`;
                 }
-            });
-    });
+            })
+            .catch(error => console.error("Erreur lors du chargement des suggestions :", error));
+    }
 
-    document.addEventListener("click", (event) => {
-        if (!searchInput.contains(event.target) && !resultsContainer.contains(event.target)) {
-            resultsContainer.style.display = "none";
-        }
-    });
-}
+    loadSuggestions(); // Charger les suggestions au démarrage
+});
