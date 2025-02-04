@@ -5,12 +5,12 @@ async function loadMovies() {
     const movies = await response.json();
     allMovies = movies;
 
-    const newReleases = movies.slice(-10);
     const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
 
-    // Filtrer les films et séries avec une image valide uniquement
-    let films = shuffleArray(movies.filter(movie => isFilm(movie) && hasValidImage(movie)));
-    let series = shuffleArray(movies.filter(movie => isSeriesOrAnime(movie) && hasValidImage(movie)));
+    // Filtrer les films, séries et nouveautés en supprimant les doublons
+    let films = removeDuplicates(shuffleArray(movies.filter(movie => isFilm(movie) && hasValidImage(movie))), false).slice(0, 20);
+    let series = removeDuplicates(shuffleArray(movies.filter(movie => isSeriesOrAnime(movie) && hasValidImage(movie))), true).slice(0, 20);
+    let newReleases = removeDuplicates(movies.slice(-50).reverse(), true).slice(0, 10); // ✅ 10 derniers sans doublons
 
     displayMovies(newReleases, "new-releases");
     displayMovies(films, "films");
@@ -24,6 +24,26 @@ function hasValidImage(movie) {
     return movie.media && movie.media.trim() !== "" && movie.media.startsWith("http");
 }
 
+// 📌 Supprimer les doublons des films, séries et nouveautés
+function removeDuplicates(movieList, isSeries = false) {
+    let uniqueMovies = {};
+    
+    movieList.forEach(movie => {
+        let cleanTitle = isSeries ? normalizeSeriesTitle(movie.title) : movie.title;
+        if (!uniqueMovies[cleanTitle]) {
+            uniqueMovies[cleanTitle] = movie;
+            if (isSeries) uniqueMovies[cleanTitle].title = cleanTitle; // Normaliser le titre affiché
+        }
+    });
+
+    return Object.values(uniqueMovies);
+}
+
+// 📌 Normaliser les titres des séries (suppression des S1, Saison 1, etc.)
+function normalizeSeriesTitle(title) {
+    return title.replace(/\s*(Saison|S|S-) ?\d+/gi, "").trim();
+}
+
 // 📌 Détection FILM
 function isFilm(movie) {
     return movie.category.toLowerCase() === "film" && extractAllLinks(movie.description).length === 1;
@@ -35,52 +55,31 @@ function isSeriesOrAnime(movie) {
     return validCategories.includes(movie.category.toLowerCase()) && extractAllLinks(movie.description).length > 1;
 }
 
+// 📌 Affichage des films et séries
 function displayMovies(movieList, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = "";
 
-    let displayedMovies = 0;
-    const maxMovies = 20;
+    let displayedTitles = new Set();
 
     movieList.forEach(movie => {
-        if (!hasValidImage(movie) || displayedMovies >= maxMovies) return;
+        if (!hasValidImage(movie) || displayedTitles.has(movie.title)) return;
+
+        displayedTitles.add(movie.title);
 
         const movieDiv = document.createElement("div");
         movieDiv.classList.add("movie-card");
         movieDiv.innerHTML = `
-            <img src="${movie.media}" alt="${movie.title}" onerror="this.parentNode.remove(); replaceMovie('${containerId}')">
+            <img src="${movie.media}" alt="${movie.title}" onerror="this.parentNode.remove()">
             <h3>${movie.title}</h3>
         `;
 
         movieDiv.addEventListener("click", () => handleClick(movie));
         container.appendChild(movieDiv);
-        displayedMovies++;
     });
-
-    // Compléter les films manquants
-    while (displayedMovies < maxMovies) {
-        replaceMovie(containerId);
-        displayedMovies++;
-    }
 }
 
-// 📌 Fonction pour remplacer un film manquant
-function replaceMovie(containerId) {
-    const container = document.getElementById(containerId);
-    const replacementMovie = allMovies.find(movie => hasValidImage(movie));
-
-    if (replacementMovie) {
-        const movieDiv = document.createElement("div");
-        movieDiv.classList.add("movie-card");
-        movieDiv.innerHTML = `
-            <img src="${replacementMovie.media}" alt="${replacementMovie.title}">
-            <h3>${replacementMovie.title}</h3>
-        `;
-        movieDiv.addEventListener("click", () => handleClick(replacementMovie));
-        container.appendChild(movieDiv);
-    }
-}
-
+// 📌 Gérer le clic sur un film ou une série
 function handleClick(movie) {
     const links = extractAllLinks(movie.description);
 
