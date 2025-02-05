@@ -54,7 +54,7 @@ body {
 /* 🎬 MENU DE NAVIGATION */
 .menu {
     display: flex;
-    gap: 3vw;
+    gap: 1vw;
     flex-wrap: wrap;
 }
 
@@ -86,15 +86,19 @@ body {
 }
 
 #search {
-    width: 100%;
-    padding: 10px;
-    border-radius: 20px;
+    width: 80%; 
+    max-width: 500px; 
+    min-width: 250px; 
+    padding: 10px; 
+    border-radius: 50px; 
     background: #222;
     color: white;
     border: 1px solid #555;
-    font-size: 1rem;
-    transition: border 0.3s ease;
+    font-size: 16px; 
+    transition: all 0.3s ease;
     cursor: pointer;
+    height: 40px; 
+    line-height: 1.5;
 }
 
 #search:focus {
@@ -284,44 +288,151 @@ body {
 }
 
 /* 📱 RESPONSIVE DESIGN */
-@media (max-width: 768px) {
+
+
+/* Tablettes */
+@media screen and (max-width: 992px) {
     .navbar {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 12px;
+        padding: 10px;
     }
 
     .menu {
-        gap: 3vw;
-        margin-top: 12px;
+        gap: 2.5vw;
     }
 
     .search-container {
-        width: 80%;
-        max-width: 320px;
+        width: 85%;
     }
 
     #search {
         width: 100%;
+        max-width: 500px;
+        font-size: 15px;
+        padding: 8px;
     }
 
     .movies-row {
-        gap: 12px;
+        gap: 10px;
     }
 
     .movie-card {
-        min-width: 20%;
-        height: 90px;
+        min-width: 25%;
+        height: 80px;
     }
 
     .movie-card h3 {
-        font-size: 1vw;
+        font-size: 1.1vw;
     }
 }
 
-/* 📱 Très petits écrans */
-@media (max-width: 480px) {
+/* Petites tablettes et grands téléphones */
+@media screen and (max-width: 768px) {
+    .navbar {
+        padding: 8px;
+    }
+
+    .menu {
+        gap: 2vw;
+    }
+
+    .search-container {
+        width: 90%;
+    }
+
+    #search {
+        width: 100%;
+        max-width: 450px;
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .movies-row {
+        gap: 8px;
+    }
+
+    .movie-card {
+        min-width: 30%;
+        height: 75px;
+    }
+
+    .movie-card h3 {
+        font-size: 1.2vw;
+    }
+}
+
+/* Téléphones standards */
+@media screen and (max-width: 576px) {
+    .navbar {
+        padding: 6px;
+    }
+
+    .menu {
+        gap: 1.5vw;
+    }
+
+    .search-container {
+        width: 95%;
+    }
+
+    #search {
+        width: 100%;
+        max-width: 350px;
+        font-size: 13px;
+        padding: 6px;
+    }
+
+    .movies-row {
+        gap: 6px;
+    }
+
+    .movie-card {
+        min-width: 40%;
+        height: 70px;
+    }
+
+    .movie-card h3 {
+        font-size: 1.3vw;
+    }
+}
+
+/* Petits téléphones et adaptation complète */
+@media screen and (max-width: 480px) {
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 5px;
+    }
+
+    .menu {
+        gap: 1.2vw;
+        margin-top: 8px;
+    }
+
+    .search-container {
+        width: 100%;
+    }
+
+    #search {
+        width: 100%;
+        max-width: 300px;
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .movies-row {
+        gap: 5px;
+    }
+
+    .movie-card {
+        min-width: 50%;
+        height: 65px;
+    }
+
+    .movie-card h3 {
+        font-size: 1.4vw;
+    }
+
     .logo {
         font-size: 2.2vw;
     }
@@ -332,15 +443,6 @@ body {
 
     .category h2 {
         font-size: 2.5vw;
-    }
-
-    .movie-card {
-        min-width: 25%;
-        height: 75px;
-    }
-
-    .movie-card h3 {
-        font-size: 0.9vw;
     }
 
     .small-thumbnail {
