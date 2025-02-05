@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://nayzox-dev.github.io/Nayzcine/sitemap.xml
