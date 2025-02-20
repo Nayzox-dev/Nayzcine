@@ -14,50 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = "index.html";
     });
 
-    // 📌 Gestion du formulaire de suggestions
-    document.getElementById("suggestion-form").addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const title = document.getElementById("suggestion-title").value;
-        const type = document.getElementById("suggestion-type").value;
-        const message = document.getElementById("suggestion-message").value;
-
-        const suggestionData = { title, type, message };
-
-        // 📩 Envoi des données au serveur
-        fetch("http://localhost:3000/save-suggestion", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(suggestionData),
-        })
-        .then(response => response.text())
-        .then(result => {
-            document.getElementById("suggestion-response").innerHTML =
-                `<p style="color: lightgreen;">Suggestion enregistrée ! Elle sera ajoutée dans l'onglet "Nouveautés" dès que possible.</p>`;
-            this.reset();
-        })
-        .catch(error => {
-            console.error("Erreur :", error);
-            document.getElementById("suggestion-response").innerHTML =
-                `<p style="color: red;">Erreur lors de l'enregistrement.</p>`;
-        });
-    });
-
-    // 📌 Charger et afficher les suggestions
-    function loadSuggestions() {
-        fetch("http://localhost:3000/get-suggestions")
-            .then(response => response.text())
-            .then(data => {
-                const suggestionsContainer = document.getElementById("all-suggestions");
-                if (suggestionsContainer) {
-                    suggestionsContainer.innerHTML = `<h3>Suggestions des utilisateurs :</h3><pre>${data}</pre>`;
-                }
-            })
-            .catch(error => console.error("Erreur lors du chargement des suggestions :", error));
-    }
-
-    loadSuggestions(); // Charger les suggestions au démarrage
-
     // 🍔 MENU BURGER
     const burgerMenu = document.querySelector(".burger-menu");
     const menu = document.querySelector(".menu");
@@ -67,5 +23,30 @@ document.addEventListener("DOMContentLoaded", function () {
             menu.classList.toggle("active");
         });
     }
-    
+
+    // 📩 Formulaire de suggestion - Envoi de données
+    document.getElementById("suggestion-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Empêche le rechargement immédiat de la page
+
+        let form = this;
+        let formData = new FormData(form);
+
+        fetch(form.action, {
+            method: form.method,
+            body: formData,
+            headers: {
+            'Accept': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                document.getElementById("suggestion-response").style.display = "block"; // Affiche le message de confirmation
+                form.reset(); // Réinitialise le formulaire
+            } else {
+                alert("❌ Une erreur est survenue, veuillez réessayer.");
+            }
+        }).catch(error => {
+            alert("❌ Une erreur s'est produite, vérifiez votre connexion.");
+        });
+    });
+
 });

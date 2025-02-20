@@ -18,12 +18,12 @@ body {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 90vw; /* Largeur de la navbar relative à l'écran */
-    height: 10vh; /* Hauteur de la navbar relative à l'écran */
+    width: 90vw;
+    height: 10vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.5vw 3vw; /* Padding relatif à la largeur de l'écran */
+    padding: 1.5vw 2vw;
     background: rgba(0, 0, 0, 0.85);
     border-radius: 15px;
     transition: all 0.3s ease;
@@ -31,14 +31,8 @@ body {
     box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
 }
 
-/* Effet au scroll */
-.navbar.scrolled {
-    background: rgba(0, 0, 0, 0.95);
-    box-shadow: 0px 4px 15px rgba(255, 0, 0, 0.6);
-}
-
 .logo {
-    font-size: 2.2vw; /* Utilisation de vw pour que la taille du logo soit relative à la largeur de l'écran */
+    font-size: 2.2vw;
     font-weight: bold;
     color: red;
     text-transform: uppercase;
@@ -53,7 +47,7 @@ body {
 
 .menu {
     display: flex;
-    gap: 2vw; /* Utilisation de vw pour espacer les éléments */
+    gap: 1.5vw;
     flex-wrap: wrap;
     justify-content: center;
 }
@@ -61,9 +55,9 @@ body {
 .menu a {
     color: white;
     text-decoration: none;
-    font-size: 1.2vw; /* Taille de la police en fonction de la largeur de l'écran */
+    font-size: 1.2vw;
     font-weight: bold;
-    padding: 1.5vh 2vw; /* Padding proportionnel à la taille de l'écran */
+    padding: 1.5vh 1vw;
     border-radius: 10px;
     transition: all 0.3s ease;
     position: relative;
@@ -75,26 +69,28 @@ body {
     background: red;
     box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.6);
     transform: scale(1.05);
-    padding: 1.5vh 2vw; /* Augmenter le padding proportionnellement sur hover */
+    padding: 1.5vh 2vw;
 }
 
 /* 🔍 BARRE DE RECHERCHE */
 .search-container {
-    position: relative;
-    flex-grow: 1; /* Permet à la barre de recherche de prendre l'espace disponible */
-    max-width: 20vw; /* Limite la largeur de la barre de recherche */
-    min-width: 150px; /* Largeur minimum pour éviter qu'elle soit trop petite sur les écrans petits */
-    margin-left: 1.5vw; /* Espacement à gauche pour ne pas être collée aux éléments adjacents */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 250px;
+    margin-left: 1.5vw;
+    transition: transform 0.3s ease;
 }
 
 #search {
     width: 100%;
-    padding: 1.5vh 2vw; /* Le padding est maintenant proportionnel à la taille de l'écran */
-    border-radius: 20px;
+    padding: 1vw;
+    border-radius: 10vw;
     background: #222;
     color: white;
     border: 1px solid #555;
-    font-size: 1rem;
+    font-size: 1vw;
     transition: border 0.3s ease;
     cursor: pointer;
 }
@@ -118,10 +114,6 @@ body {
     box-shadow: 0px 4px 15px rgba(255, 0, 0, 0.4);
     max-width: 500px;
     margin: auto;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .category h2 {
@@ -201,4 +193,224 @@ body {
     font-size: 1.2rem;
     color: lightgreen;
     display: none;
+}
+
+/* 🍔 MENU BURGER */
+.burger-menu {
+    display: none;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 1100;
+    order: 2;
+    margin-left: auto;
+    padding: 8px;
+}
+
+.burger-menu span {
+    display: block;
+    width: 4vw; /* Largeur dynamique en fonction de la largeur de l'écran */
+    height: 0.6vw; /* Hauteur dynamique en fonction de la largeur de l'écran */
+    margin: 0.6vw auto; /* Espacement dynamique entre les barres */
+    background-color: rgba(189, 0, 0, 0); /* Couleur des barres */
+    border-radius: 0.2vw; /* Coins arrondis pour un effet plus doux */
+}
+
+/* 💡 MEDIA QUERIES */
+@media (max-width: 800px){
+    .burger-menu span {
+        width: 1em; /* Largeur ajustée pour les écrans plus petits */
+        height: 1.4em; /* Hauteur ajustée pour une meilleure visibilité */
+    }
+    
+    /* Affichage du bouton burger */
+    .burger-menu {
+        display: block;
+    }
+
+    /* Menu déroulant pour mobile */
+    .menu {
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.9);
+        position: absolute;
+        top: 10vh;
+        left: 0;
+        text-align: center;
+        padding: 10px 0;
+        z-index: 1000;
+    }
+
+    /* Logo responsive */
+    .logo {
+        width: 10%; /* Ajuste la largeur du logo en fonction de l'écran */
+        font-size: 4vw; /* Utilise la largeur de l'écran pour ajuster la taille du texte */
+        text-align: center;
+    }
+
+    /* Affichage du menu lorsque le bouton burger est actif */
+    .menu.active {
+        display: flex;
+    }
+
+    /* Liens du menu */
+    .menu a {
+        font-size: 1.2rem;
+        padding: 10px 15px;
+        display: block;
+    }
+
+    /* Barre de recherche mobile */
+    .search-container {
+        position: absolute; /* Positionnement absolu dans la navbar */
+        left: 75%;
+        transform: translateX(-50%); /* Centre horizontalement */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30%;
+        margin: 15px 0;
+    }
+
+    .search-container input {
+        font-size: 1rem;
+        padding: 8px;
+        width: 100%;
+        max-width: 300px;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 700px){
+    .burger-menu span {
+        width: 1em; /* Largeur ajustée pour les écrans plus petits */
+        height: 1.4em; /* Hauteur ajustée pour une meilleure visibilité */
+    }
+    
+    /* Affichage du bouton burger */
+    .burger-menu {
+        display: block;
+    }
+
+    /* Menu déroulant pour mobile */
+    .menu {
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.9);
+        position: absolute;
+        top: 10vh;
+        left: 0;
+        text-align: center;
+        padding: 10px 0;
+        z-index: 1000;
+    }
+
+    /* Logo responsive */
+    .logo {
+        width: 10%; /* Ajuste la largeur du logo en fonction de l'écran */
+        font-size: 4vw; /* Utilise la largeur de l'écran pour ajuster la taille du texte */
+        text-align: center;
+    }
+
+    /* Affichage du menu lorsque le bouton burger est actif */
+    .menu.active {
+        display: flex;
+    }
+
+    /* Liens du menu */
+    .menu a {
+        font-size: 1.2rem;
+        padding: 10px 15px;
+        display: block;
+    }
+
+    /* Barre de recherche mobile */
+    .search-container {
+        position: absolute; /* Positionnement absolu dans la navbar */
+        left: 70%;
+        transform: translateX(-50%); /* Centre horizontalement */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30%;
+        margin: 15px 0;
+    }
+
+    .search-container input {
+        font-size: 1rem;
+        padding: 8px;
+        width: 100%;
+        max-width: 300px;
+        box-sizing: border-box;
+    }
+}
+
+@media (max-width: 400px){
+    .burger-menu span {
+        width: 1em; /* Largeur ajustée pour les écrans plus petits */
+        height: 1.4em; /* Hauteur ajustée pour une meilleure visibilité */
+        font-size: 1.3rem; /* Taille du bouton burger */
+    }
+    
+    /* Affichage du bouton burger */
+    .burger-menu {
+        display: block;
+    }
+
+    /* Menu déroulant pour mobile */
+    .menu {
+        width: 100%;
+        display: none;
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.9);
+        position: absolute;
+        top: 10vh;
+        left: 0;
+        text-align: center;
+        padding: 10px 0;
+        z-index: 1000;
+    }
+
+    /* Logo responsive */
+    .logo {
+        width: 10%; /* Ajuste la largeur du logo en fonction de l'écran */
+        font-size: 4vw; /* Utilise la largeur de l'écran pour ajuster la taille du texte */
+        text-align: center;
+    }
+
+    /* Affichage du menu lorsque le bouton burger est actif */
+    .menu.active {
+        display: flex;
+    }
+
+    /* Liens du menu */
+    .menu a {
+        font-size: 1.2rem;
+        padding: 10px 15px;
+        display: block;
+    }
+
+    /* Barre de recherche mobile */
+    .search-container {
+        position: absolute; /* Positionnement absolu dans la navbar */
+        left: 60%;
+        transform: translateX(-50%); /* Centre horizontalement */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30%;
+        margin: 15px 0;
+    }
+
+    .search-container input {
+        font-size: 1rem;
+        padding: 8px;
+        width: 100%;
+        max-width: 300px;
+        box-sizing: border-box;
+    }
 }
