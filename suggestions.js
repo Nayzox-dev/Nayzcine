@@ -57,4 +57,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     loadSuggestions(); // Charger les suggestions au démarrage
+
+    // 🍔 MENU BURGER
+    const burgerMenu = document.querySelector(".burger-menu");
+    const menu = document.querySelector(".menu");
+
+    if (burgerMenu && menu) {
+        burgerMenu.addEventListener("click", function () {
+            menu.classList.toggle("active");
+        });
+    }
+    
 });

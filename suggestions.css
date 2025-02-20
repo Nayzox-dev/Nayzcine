@@ -18,12 +18,12 @@ body {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 95%;
-    max-width: 1400px;
+    width: 90vw; /* Largeur de la navbar relative à l'écran */
+    height: 10vh; /* Hauteur de la navbar relative à l'écran */
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 30px;
+    padding: 1.5vw 3vw; /* Padding relatif à la largeur de l'écran */
     background: rgba(0, 0, 0, 0.85);
     border-radius: 15px;
     transition: all 0.3s ease;
@@ -31,13 +31,20 @@ body {
     box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
 }
 
+/* Effet au scroll */
+.navbar.scrolled {
+    background: rgba(0, 0, 0, 0.95);
+    box-shadow: 0px 4px 15px rgba(255, 0, 0, 0.6);
+}
+
 .logo {
-    font-size: 2rem;
+    font-size: 2.2vw; /* Utilisation de vw pour que la taille du logo soit relative à la largeur de l'écran */
     font-weight: bold;
     color: red;
     text-transform: uppercase;
     letter-spacing: 2px;
     transition: transform 0.3s ease;
+    flex-shrink: 0;
 }
 
 .logo:hover {
@@ -46,17 +53,18 @@ body {
 
 .menu {
     display: flex;
-    gap: 30px;
+    gap: 2vw; /* Utilisation de vw pour espacer les éléments */
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .menu a {
     color: white;
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 1.2vw; /* Taille de la police en fonction de la largeur de l'écran */
     font-weight: bold;
-    padding: 10px 15px;
-    border-radius: 5px;
+    padding: 1.5vh 2vw; /* Padding proportionnel à la taille de l'écran */
+    border-radius: 10px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -67,17 +75,21 @@ body {
     background: red;
     box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.6);
     transform: scale(1.05);
+    padding: 1.5vh 2vw; /* Augmenter le padding proportionnellement sur hover */
 }
 
 /* 🔍 BARRE DE RECHERCHE */
 .search-container {
     position: relative;
-    width: 280px;
+    flex-grow: 1; /* Permet à la barre de recherche de prendre l'espace disponible */
+    max-width: 20vw; /* Limite la largeur de la barre de recherche */
+    min-width: 150px; /* Largeur minimum pour éviter qu'elle soit trop petite sur les écrans petits */
+    margin-left: 1.5vw; /* Espacement à gauche pour ne pas être collée aux éléments adjacents */
 }
 
 #search {
     width: 100%;
-    padding: 10px;
+    padding: 1.5vh 2vw; /* Le padding est maintenant proportionnel à la taille de l'écran */
     border-radius: 20px;
     background: #222;
     color: white;
@@ -106,6 +118,10 @@ body {
     box-shadow: 0px 4px 15px rgba(255, 0, 0, 0.4);
     max-width: 500px;
     margin: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .category h2 {

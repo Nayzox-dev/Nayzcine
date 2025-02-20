@@ -12,23 +12,23 @@ body {
     overflow-x: hidden;
 }
 
-/* 🎯 NAVBAR MODERNE */
+/* 🎯 NAVBAR */
 .navbar {
     position: fixed;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
+    width: 90vw; /* Largeur de la navbar relative à l'écran */
+    height: 10vh; /* Hauteur de la navbar relative à l'écran */
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 1.5vw 3vw; /* Padding relatif à la largeur de l'écran */
     background: rgba(0, 0, 0, 0.85);
     border-radius: 15px;
     transition: all 0.3s ease;
     z-index: 1000;
     box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
-    width: 95%;
-    max-width: none;
-    padding: 2vh 5vw;
 }
 
 /* Effet au scroll */
@@ -37,68 +37,67 @@ body {
     box-shadow: 0px 4px 15px rgba(255, 0, 0, 0.6);
 }
 
-/* 🏆 LOGO */
 .logo {
-    font-size: 2.5vw;
+    font-size: 2.2vw; /* Utilisation de vw pour que la taille du logo soit relative à la largeur de l'écran */
     font-weight: bold;
     color: red;
     text-transform: uppercase;
     letter-spacing: 2px;
     transition: transform 0.3s ease;
+    flex-shrink: 0;
 }
 
 .logo:hover {
     transform: scale(1.1);
 }
 
-/* 🎬 MENU DE NAVIGATION */
 .menu {
     display: flex;
-    gap: 1vw;
+    gap: 2vw; /* Utilisation de vw pour espacer les éléments */
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 /* 🎯 Style des liens */
 .menu a {
     color: white;
     text-decoration: none;
-    font-size: 1.3vw;
+    font-size: 1.2vw; /* Taille de la police en fonction de la largeur de l'écran */
     font-weight: bold;
-    padding: 1.5vh 2vw;
-    border-radius: 8px;
+    padding: 1.5vh 2vw; /* Padding proportionnel à la taille de l'écran */
+    border-radius: 10px;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
 }
 
-/* Effet au survol */
 .menu a:hover,
 .menu a.active {
     background: red;
     box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.6);
     transform: scale(1.05);
+    padding: 1.5vh 2vw; /* Augmenter le padding proportionnellement sur hover */
 }
 
 /* 🔍 BARRE DE RECHERCHE */
 .search-container {
     position: relative;
-    width: 20%;
+    flex-grow: 1; /* Permet à la barre de recherche de prendre l'espace disponible */
+    max-width: 20vw; /* Limite la largeur de la barre de recherche */
+    min-width: 150px; /* Largeur minimum pour éviter qu'elle soit trop petite sur les écrans petits */
+    margin-left: 1.5vw; /* Espacement à gauche pour ne pas être collée aux éléments adjacents */
 }
 
 #search {
-    width: 80%; 
-    max-width: 500px; 
-    min-width: 250px; 
-    padding: 10px; 
-    border-radius: 50px; 
+    width: 100%;
+    padding: 1.5vh 2vw; /* Le padding est maintenant proportionnel à la taille de l'écran */
+    border-radius: 20px;
     background: #222;
     color: white;
     border: 1px solid #555;
-    font-size: 16px; 
-    transition: all 0.3s ease;
+    font-size: 1rem;
+    transition: border 0.3s ease;
     cursor: pointer;
-    height: 40px; 
-    line-height: 1.5;
 }
 
 #search:focus {
@@ -287,166 +286,49 @@ body {
     background: #666;
 }
 
-/* 📱 RESPONSIVE DESIGN */
-
-
-/* Tablettes */
-@media screen and (max-width: 992px) {
-    .navbar {
-        padding: 10px;
-    }
-
-    .menu {
-        gap: 2.5vw;
-    }
-
-    .search-container {
-        width: 85%;
-    }
-
-    #search {
-        width: 100%;
-        max-width: 500px;
-        font-size: 15px;
-        padding: 8px;
+@media screen and (max-width: 1500px) {
+    .movie-card {
+        min-width: 20%; /* Augmente la taille des films */
+        aspect-ratio: 16/9; /* Garde le bon format */
     }
 
     .movies-row {
-        gap: 10px;
-    }
-
-    .movie-card {
-        min-width: 25%;
-        height: 80px;
-    }
-
-    .movie-card h3 {
-        font-size: 1.1vw;
+        gap: 20px; /* Espace entre les films */
     }
 }
 
-/* Petites tablettes et grands téléphones */
+
+@media screen and (max-width: 1300px) {
+    .movie-card {
+        min-width: 25%; /* Augmente la taille des films */
+        aspect-ratio: 16/9; /* Garde le bon format */
+    }
+
+    .movies-row {
+        gap: 20px; /* Espace entre les films */
+    }
+}
+
+
+@media screen and (max-width: 1000px) {
+    .movie-card {
+        min-width: 28%; /* Augmente la taille des films */
+        aspect-ratio: 16/9; /* Garde le bon format */
+    }
+
+    .movies-row {
+        gap: 20px; /* Espace entre les films */
+    }
+}
+
+
 @media screen and (max-width: 768px) {
-    .navbar {
-        padding: 8px;
-    }
-
-    .menu {
-        gap: 2vw;
-    }
-
-    .search-container {
-        width: 90%;
-    }
-
-    #search {
-        width: 100%;
-        max-width: 450px;
-        font-size: 14px;
-        padding: 8px;
+    .movie-card {
+        min-width: 40%; /* Augmente la taille des films */
+        aspect-ratio: 16/9; /* Garde le bon format */
     }
 
     .movies-row {
-        gap: 8px;
-    }
-
-    .movie-card {
-        min-width: 30%;
-        height: 75px;
-    }
-
-    .movie-card h3 {
-        font-size: 1.2vw;
-    }
-}
-
-/* Téléphones standards */
-@media screen and (max-width: 576px) {
-    .navbar {
-        padding: 6px;
-    }
-
-    .menu {
-        gap: 1.5vw;
-    }
-
-    .search-container {
-        width: 95%;
-    }
-
-    #search {
-        width: 100%;
-        max-width: 350px;
-        font-size: 13px;
-        padding: 6px;
-    }
-
-    .movies-row {
-        gap: 6px;
-    }
-
-    .movie-card {
-        min-width: 40%;
-        height: 70px;
-    }
-
-    .movie-card h3 {
-        font-size: 1.3vw;
-    }
-}
-
-/* Petits téléphones et adaptation complète */
-@media screen and (max-width: 480px) {
-    .navbar {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 5px;
-    }
-
-    .menu {
-        gap: 1.2vw;
-        margin-top: 8px;
-    }
-
-    .search-container {
-        width: 100%;
-    }
-
-    #search {
-        width: 100%;
-        max-width: 300px;
-        font-size: 12px;
-        padding: 5px;
-    }
-
-    .movies-row {
-        gap: 5px;
-    }
-
-    .movie-card {
-        min-width: 50%;
-        height: 65px;
-    }
-
-    .movie-card h3 {
-        font-size: 1.4vw;
-    }
-
-    .logo {
-        font-size: 2.2vw;
-    }
-
-    .menu a {
-        font-size: 1.2vw;
-    }
-
-    .category h2 {
-        font-size: 2.5vw;
-    }
-
-    .small-thumbnail {
-        width: 35px;
-        height: 35px;
+        gap: 20px; /* Espace entre les films */
     }
 }
