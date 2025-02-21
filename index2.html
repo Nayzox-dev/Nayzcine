@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Vérification Google Search Console -->
+        <meta name="google-site-verification" content="B1Z9IH0-iclzu-H3aOV504tAItt9Wn3DVSZThAiBe-A" />
+    
+        <!-- Balises SEO -->
+        <title>Nayzcine - Streaming</title>
+        <meta name="description" content="Nayzcine est votre plateforme de streaming pour regarder gratuitement des films et séries en HD, sans abonnement ni inscription. Profitez du meilleur du cinéma en un clic !">
+        <meta name="keywords" content="Nayzcine, films en streaming, séries gratuites, regarder films en ligne, plateforme streaming">
+        <meta name="author" content="Nayzox">
+        <meta name="robots" content="index, follow">
+        <link rel="canonical" href="https://nayzcine.fr">
+    
+        <!-- Open Graph (Facebook, LinkedIn) -->
+        <meta property="og:title" content="Nayzcine - Films et Séries en Streaming Gratuit HD">
+        <meta property="og:description" content="Nayzcine vous permet de regarder des films et séries en streaming gratuitement et en HD. Sans abonnement !">
+        <meta property="og:image" content="https://nayzcine.fr/logo.png">
+        <meta property="og:url" content="https://nayzcine.fr">
+        <meta property="og:type" content="website">
+    
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="Nayzcine - Films et Séries en Streaming Gratuit HD">
+        <meta name="twitter:description" content="Profitez des meilleurs films et séries en streaming gratuit sur Nayzcine. Qualité HD et sans abonnement !">
+        <meta name="twitter:image" content="https://nayzcine.fr/logo.png">
+    
+        <!-- Favicon & Styles -->
+        <link rel="icon" type="image/png" href="logo.png">
+        <link rel="shortcut icon" href="logo.ico">
+        <link rel="stylesheet" href="style.css">
+</head>  
+<body>
+
+    <!-- Barre de navigation flottante -->
+    <header class="navbar">
+        <div class="logo">Nayzcine</div>
+        <nav class="menu">
+            <a href="index2.html" class="active">Nouveauté</a>
+            <a href="suggestions.html">Suggestions</a>
+            <a href="report.html">Signaler</a>
+        </nav>
+        <div class="search-container">
+            <input type="text" id="search" placeholder="🔍 Rechercher...">
+            <div id="search-results"></div>
+        </div>
+        <!-- 🍔 Menu Burger -->
+        <button class="burger-menu">
+            <span>&#9776;</span> <!-- Symbole du hamburger -->
+        </button>
+    </header>    
+
+    <!-- Sections catégories -->
+    <main id="categories">
+        <section class="category">
+            <h2>Nouveautés</h2>
+            <div class="movies-row" id="new-releases"></div>
+        </section>
+        <section class="category">
+            <h2>Films</h2>
+            <div class="movies-row" id="films"></div>
+        </section>
+        <section class="category">
+            <h2>Séries</h2>
+            <div class="movies-row" id="series"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
