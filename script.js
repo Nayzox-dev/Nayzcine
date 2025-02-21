@@ -84,9 +84,9 @@ function handleClick(movie) {
     const links = extractAllLinks(movie.description);
 
     if (isFilm(movie)) {
-        window.location.href = cleanURL(links[0]); 
+        window.open(cleanURL(links[0]), '_blank'); // Ouvre le lien dans un nouvel onglet pour le film
     } else if (isSeriesOrAnime(movie)) {
-        showEpisodesModal(movie.title, links);
+        showEpisodesModal(movie.title, links); // Affiche le modal pour les séries
     } else {
         alert("Aucun lien trouvé pour ce contenu.");
     }
@@ -117,7 +117,7 @@ function showEpisodesModal(title, episodeLinks) {
             <h2>${title}</h2>
             <div class="episodes-list">
                 ${episodeLinks.map((url, index) => `
-                    <button class="episode-btn" onclick="window.location.href='${cleanURL(url)}'">
+                    <button class="episode-btn" onclick="window.open('${cleanURL(url)}', '_blank')">
                         Épisode ${index + 1}
                     </button>
                 `).join("")}
@@ -179,4 +179,44 @@ function highlightMatch(text, query) {
     return text.replace(regex, "<strong style='color: red;'>$1</strong>");
 }
 
+// Ajouter un événement de défilement sur les images avec la souris maintenue
+function enableImageScroll() {
+    const moviesRows = document.querySelectorAll('.movies-row');
+    
+    moviesRows.forEach(row => {
+        let isMouseDown = false;
+        let startX;
+        let scrollLeft;
+
+        row.addEventListener('mousedown', (e) => {
+            e.preventDefault(); // Empêche la sélection de l'image lors du clic
+            isMouseDown = true;
+            startX = e.pageX - row.offsetLeft;
+            scrollLeft = row.scrollLeft;
+            row.style.cursor = 'grabbing'; // Change le curseur pour indiquer le mouvement
+        });
+
+        row.addEventListener('mouseleave', () => {
+            isMouseDown = false;
+            row.style.cursor = 'grab'; // Revenir au curseur "attraper" lorsqu'on sort de l'élément
+        });
+
+        row.addEventListener('mouseup', () => {
+            isMouseDown = false;
+            row.style.cursor = 'grab'; // Revenir au curseur "attraper" lorsqu'on relâche le clic
+        });
+
+        row.addEventListener('mousemove', (e) => {
+            if (!isMouseDown) return;
+            e.preventDefault();
+            const x = e.pageX - row.offsetLeft;
+            const scroll = (x - startX) * 2;  // Vitesse de défilement
+            row.scrollLeft = scrollLeft - scroll;
+        });
+    });
+}
+
 loadMovies();
+
+// Appeler la fonction après avoir chargé les films
+enableImageScroll();
