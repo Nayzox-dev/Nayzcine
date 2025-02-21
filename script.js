@@ -39,16 +39,6 @@ function removeDuplicates(movieList, isSeries = false) {
     return Object.values(uniqueMovies);
 }
 
-// ✅ Empêcher le focus sur mobile (évite l'affichage du clavier)
-searchInput.addEventListener("focus", function (event) {
-    event.target.blur();
-});
-
-// 🚀 Rediriger vers "nouveauté.html" au clic
-searchInput.addEventListener("click", function () {
-    window.location.href = "index2.html";
-});
-
 // 🍔 MENU BURGER
 const burgerMenu = document.querySelector(".burger-menu");
 const menu = document.querySelector(".menu");
