@@ -39,6 +39,26 @@ function removeDuplicates(movieList, isSeries = false) {
     return Object.values(uniqueMovies);
 }
 
+// ✅ Empêcher le focus sur mobile (évite l'affichage du clavier)
+searchInput.addEventListener("focus", function (event) {
+    event.target.blur();
+});
+
+// 🚀 Rediriger vers "nouveauté.html" au clic
+searchInput.addEventListener("click", function () {
+    window.location.href = "index2.html";
+});
+
+// 🍔 MENU BURGER
+const burgerMenu = document.querySelector(".burger-menu");
+const menu = document.querySelector(".menu");
+
+if (burgerMenu && menu) {
+    burgerMenu.addEventListener("click", function () {
+        menu.classList.toggle("active");
+    });
+}
+
 // 📌 Normaliser les titres des séries (suppression des S1, Saison 1, etc.)
 function normalizeSeriesTitle(title) {
     return title.replace(/\s*(Saison|S|S-) ?\d+/gi, "").trim();
