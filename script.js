@@ -89,16 +89,43 @@ function displayMovies(movieList, containerId) {
     });
 }
 
-// 📌 Gérer le clic sur un film ou une série
 function handleClick(movie) {
     const links = extractAllLinks(movie.description);
 
     if (isFilm(movie)) {
-        window.open(cleanURL(links[0]), '_blank'); // Ouvre le lien dans un nouvel onglet pour le film
+        // Modifier l'URL du lien pour les films
+        const modifiedLink = links[0].replace('https://uqload.net/', 'https://uqload.net/embed-');
+        
+        // Rediriger vers film.html avec les paramètres pour un film
+        const encodedTitle = encodeURIComponent(movie.title);  // Encodage pour l'URL
+        const encodedLink = encodeURIComponent(modifiedLink);  // Encodage pour l'URL
+        window.location.href = `film.html?title=${encodedTitle}&link=${encodedLink}&type=film`;
     } else if (isSeriesOrAnime(movie)) {
+        // Pour les séries, on suppose que l'utilisateur veut un épisode spécifique
         showEpisodesModal(movie.title, links); // Affiche le modal pour les séries
     } else {
         alert("Aucun lien trouvé pour ce contenu.");
+    }
+}
+
+// 📌 Gérer le clic sur un épisode d'une série
+function handleEpisodeClick(episodeLink, title) {
+    // Vérifier si l'URL de l'épisode contient 'https://uqload.net/'
+    if (episodeLink.includes('https://uqload.net/')) {
+        // Modifier l'URL de l'épisode, en ajoutant 'embed-' au lieu de 'https://uqload.net/'
+        const modifiedLink = episodeLink.replace('https://uqload.net/', 'https://uqload.net/embed-');
+
+        // Encodage des paramètres pour l'URL
+        const encodedLink = encodeURIComponent(modifiedLink);  // Encodage du lien modifié
+        const encodedTitle = encodeURIComponent(title);  // Encodage du titre de la série
+
+        // Affichage dans la console pour vérifier si le lien a été modifié
+        console.log(`Lien modifié pour la redirection: ${modifiedLink}`);
+
+        // Rediriger vers film.html avec l'épisode traité comme un film
+        window.location.href = `film.html?title=${encodedTitle}&link=${encodedLink}&type=film`;
+    } else {
+        alert("Le lien de l'épisode est invalide.");
     }
 }
 
@@ -127,7 +154,7 @@ function showEpisodesModal(title, episodeLinks) {
             <h2>${title}</h2>
             <div class="episodes-list">
                 ${episodeLinks.map((url, index) => `
-                    <button class="episode-btn" onclick="window.open('${cleanURL(url)}', '_blank')">
+                    <button class="episode-btn" onclick="handleEpisodeClick('${url}', '${title}')">
                         Épisode ${index + 1}
                     </button>
                 `).join("")}
