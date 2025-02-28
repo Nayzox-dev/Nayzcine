@@ -9,10 +9,16 @@
 </head>
 <body>
 
+    <!-- Pop-up pour encourager l'installation d'un bloqueur de publicités -->
+    <div id="adblock-popup">
+        <button class="close-btn" onclick="closePopup()">×</button>
+        <p>Nous vous recommandons d'utiliser un bloqueur de publicités comme <strong>Adblock Plus</strong> ou <strong>uBlock Origin</strong> pour une meilleure expérience sur notre site. <a href="https://getadblock.com/" target="_blank">Installer Adblock</a></p>
+    </div>
+
     <header class="navbar">
         <div class="logo">Nayzcine</div>
         <nav class="menu">
-            <a href="index2.html">Nouveauté</a>
+            <a href="index.html">Nouveauté</a>
             <a href="suggestions.html">Suggestions</a>
             <a href="report.html">Signaler</a>
         </nav>
@@ -25,7 +31,7 @@
             <span>&#9776;</span> <!-- Symbole du hamburger -->
         </button>
     </header>
-<br>
+    <br>
     <div class="content">
         <h1 id="movie-title"></h1>
         <div class="video-container">

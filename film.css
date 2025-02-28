@@ -33,7 +33,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
 }
 
 /* Titre du film */
@@ -49,7 +48,6 @@ body {
     position: relative;
     width: 70%; /* Définit la largeur à 70% de l'écran */
     padding-top: 56.25%; /* Proportion 16:9 */
-    height: 0;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
     margin-bottom: 20px; /* Espacement sous la vidéo */
@@ -62,9 +60,21 @@ iframe {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%; /* Utilise toute la largeur de la vidéo-container */
-    height: 70%; /* Remplir toute la hauteur du conteneur */
+    width: 100%;
+    height: 100%;
     border: none;
+}
+
+/* 🔥 Overlay anti-pub (empêche les clics sur les popups invisibles) */
+.iframe-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Fond sombre pour mieux bloquer les pubs */
+    z-index: 2;
+    pointer-events: none; /* Empêche toute interaction avec les pubs */
 }
 
 /* Affichage du nombre d'épisodes */
@@ -82,7 +92,6 @@ iframe {
 
     .video-container {
         width: 100%;
-        height: 0;
         padding-top: 56.25%; /* Pour maintenir la proportion 16:9 */
     }
 }
