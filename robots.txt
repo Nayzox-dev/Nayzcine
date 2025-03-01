@@ -1,6 +1,15 @@
 User-agent: *
 Disallow: /admin/
 Disallow: /private/
+Disallow: /login/
+Disallow: /register/
 Allow: /
 
-Sitemap: https://nayzcine.com/sitemap.xml
+# Autoriser l'accès aux ressources importantes
+Allow: /logo.png
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# Indiquer le sitemap pour une meilleure exploration
+Sitemap: https://nayzcine.fr/sitemap.xml
