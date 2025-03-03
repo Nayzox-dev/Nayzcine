@@ -42,18 +42,47 @@
     <!-- Favicon & Styles -->
     <link rel="icon" type="image/png" href="https://nayzcine.fr/logo.png">
     <link rel="stylesheet" href="porte.css">
+
+    <link rel="stylesheet" href="style.css">    
 </head>
-    
+
 <body>
-    <div class="container">
-        <img src="catalogue.png" alt="Arrière-plan" class="background">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1><strong>Nayzcine</strong></h1>
-            <h3>Regardez vos films et séries préférés <strong>Gratuit !</strong></h3>
-            <br>
-            <a href="index.html" class="access-button">Accéder au site</a>
+
+    <!-- Barre de navigation flottante -->
+    <header class="navbar">
+        <div class="logo">Nayzcine</div>
+        <nav class="menu">
+            <a href="index2.html" class="active">Nouveauté</a>
+            <a href="suggestions.html">Suggestions</a>
+            <a href="report.html">Signaler</a>
+        </nav>
+        <div class="search-container">
+            <input type="text" id="search" placeholder="🔍 Rechercher...">
+            <div id="search-results"></div>
         </div>
-    </div>
+        <!-- 🍔 Menu Burger -->
+        <button class="burger-menu">
+            <span>&#9776;</span> <!-- Symbole du hamburger -->
+        </button>
+    </header>    
+
+    <!-- Sections catégories -->
+    <main id="categories">
+        <section class="category">
+            <h2>Nouveautés</h2>
+            <div class="movies-row" id="new-releases"></div>
+        </section>
+        <section class="category">
+            <h2>Films</h2>
+            <div class="movies-row" id="films"></div>
+        </section>
+        <section class="category">
+            <h2>Séries</h2>
+            <div class="movies-row" id="series"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+
 </body>
 </html>
