@@ -50,16 +50,20 @@
 
     <!-- Barre de navigation flottante -->
     <header class="navbar">
+        
         <div class="logo">Nayzcine</div>
+        
         <nav class="menu">
             <a href="index2.html" class="active">Nouveauté</a>
             <a href="suggestions.html">Suggestions</a>
             <a href="report.html">Signaler</a>
         </nav>
+        
         <div class="search-container">
             <input type="text" id="search" placeholder="🔍 Rechercher...">
             <div id="search-results"></div>
         </div>
+        
         <!-- 🍔 Menu Burger -->
         <button class="burger-menu">
             <span>&#9776;</span> <!-- Symbole du hamburger -->
@@ -82,7 +86,30 @@
         </section>
     </main>
 
+    <script src="f12.js"></script>
     <script src="script.js"></script>
+    <script src="phone.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let searchInput = document.getElementById("search-input");
+            let searchResults = document.getElementById("search-results");
+            let searchOverlay = document.getElementById("search-overlay");
+        
+            if (!searchInput || !searchResults || !searchOverlay) {
+                console.error("❌ ERREUR : Un élément de la recherche est introuvable !");
+                return;
+            }
+        
+            searchInput.addEventListener("input", function() {
+                searchResults.style.display = "block";
+                searchResults.innerHTML = "<p style='color: white;'>🔍 Résultat : " + this.value + "</p>";
+                console.log("📲 Recherche mobile en cours :", this.value);
+            });
+        
+            console.log("✅ Script mobile chargé !");
+        });
+    </script>
 
 </body>
 </html>

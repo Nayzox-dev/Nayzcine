@@ -15,7 +15,7 @@ body {
 /* 🎯 NAVBAR */
 .navbar {
     position: fixed;
-    top: 0;
+    top: 2vh;
     left: 50%;
     transform: translateX(-50%);
     width: 90vw;
@@ -25,10 +25,15 @@ body {
     justify-content: space-between;
     padding: 1.5vw 2vw;
     background: rgba(0, 0, 0, 0.85);
-    border-radius: 15px;
+    border-radius: 50px;
     transition: all 0.3s ease;
     z-index: 1000;
     box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+}
+
+.navbar.scrolled {
+    background: rgba(0, 0, 0, 0.95);
+    box-shadow: 0px 4px 15px rgba(255, 0, 0, 0.6);
 }
 
 .logo {
@@ -42,7 +47,7 @@ body {
 }
 
 .logo:hover {
-    transform: scale(1.1);
+    transform: scale(1.1); /* Effet de zoom au survol */
 }
 
 .menu {
@@ -216,201 +221,4 @@ body {
     margin: 0.6vw auto; /* Espacement dynamique entre les barres */
     background-color: rgba(189, 0, 0, 0); /* Couleur des barres */
     border-radius: 0.2vw; /* Coins arrondis pour un effet plus doux */
-}
-
-/* 💡 MEDIA QUERIES */
-@media (max-width: 800px){
-    .burger-menu span {
-        width: 1em; /* Largeur ajustée pour les écrans plus petits */
-        height: 1.4em; /* Hauteur ajustée pour une meilleure visibilité */
-    }
-    
-    /* Affichage du bouton burger */
-    .burger-menu {
-        display: block;
-    }
-
-    /* Menu déroulant pour mobile */
-    .menu {
-        width: 100%;
-        display: none;
-        flex-direction: column;
-        background: rgba(0, 0, 0, 0.9);
-        position: absolute;
-        top: 10vh;
-        left: 0;
-        text-align: center;
-        padding: 10px 0;
-        z-index: 1000;
-    }
-
-    /* Logo responsive */
-    .logo {
-        width: 10%; /* Ajuste la largeur du logo en fonction de l'écran */
-        font-size: 4vw; /* Utilise la largeur de l'écran pour ajuster la taille du texte */
-        text-align: center;
-    }
-
-    /* Affichage du menu lorsque le bouton burger est actif */
-    .menu.active {
-        display: flex;
-    }
-
-    /* Liens du menu */
-    .menu a {
-        font-size: 1.2rem;
-        padding: 10px 15px;
-        display: block;
-    }
-
-    /* Barre de recherche mobile */
-    .search-container {
-        position: absolute; /* Positionnement absolu dans la navbar */
-        left: 75%;
-        transform: translateX(-50%); /* Centre horizontalement */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30%;
-        margin: 15px 0;
-    }
-
-    .search-container input {
-        font-size: 1rem;
-        padding: 8px;
-        width: 100%;
-        max-width: 300px;
-        box-sizing: border-box;
-    }
-}
-
-@media (max-width: 700px){
-    .burger-menu span {
-        width: 1em; /* Largeur ajustée pour les écrans plus petits */
-        height: 1.4em; /* Hauteur ajustée pour une meilleure visibilité */
-    }
-    
-    /* Affichage du bouton burger */
-    .burger-menu {
-        display: block;
-    }
-
-    /* Menu déroulant pour mobile */
-    .menu {
-        width: 100%;
-        display: none;
-        flex-direction: column;
-        background: rgba(0, 0, 0, 0.9);
-        position: absolute;
-        top: 10vh;
-        left: 0;
-        text-align: center;
-        padding: 10px 0;
-        z-index: 1000;
-    }
-
-    /* Logo responsive */
-    .logo {
-        width: 10%; /* Ajuste la largeur du logo en fonction de l'écran */
-        font-size: 4vw; /* Utilise la largeur de l'écran pour ajuster la taille du texte */
-        text-align: center;
-    }
-
-    /* Affichage du menu lorsque le bouton burger est actif */
-    .menu.active {
-        display: flex;
-    }
-
-    /* Liens du menu */
-    .menu a {
-        font-size: 1.2rem;
-        padding: 10px 15px;
-        display: block;
-    }
-
-    /* Barre de recherche mobile */
-    .search-container {
-        position: absolute; /* Positionnement absolu dans la navbar */
-        left: 70%;
-        transform: translateX(-50%); /* Centre horizontalement */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30%;
-        margin: 15px 0;
-    }
-
-    .search-container input {
-        font-size: 1rem;
-        padding: 8px;
-        width: 100%;
-        max-width: 300px;
-        box-sizing: border-box;
-    }
-}
-
-@media (max-width: 400px){
-    .burger-menu span {
-        width: 1em; /* Largeur ajustée pour les écrans plus petits */
-        height: 1.4em; /* Hauteur ajustée pour une meilleure visibilité */
-        font-size: 1.3rem; /* Taille du bouton burger */
-    }
-    
-    /* Affichage du bouton burger */
-    .burger-menu {
-        display: block;
-    }
-
-    /* Menu déroulant pour mobile */
-    .menu {
-        width: 100%;
-        display: none;
-        flex-direction: column;
-        background: rgba(0, 0, 0, 0.9);
-        position: absolute;
-        top: 10vh;
-        left: 0;
-        text-align: center;
-        padding: 10px 0;
-        z-index: 1000;
-    }
-
-    /* Logo responsive */
-    .logo {
-        width: 10%; /* Ajuste la largeur du logo en fonction de l'écran */
-        font-size: 4vw; /* Utilise la largeur de l'écran pour ajuster la taille du texte */
-        text-align: center;
-    }
-
-    /* Affichage du menu lorsque le bouton burger est actif */
-    .menu.active {
-        display: flex;
-    }
-
-    /* Liens du menu */
-    .menu a {
-        font-size: 1.2rem;
-        padding: 10px 15px;
-        display: block;
-    }
-
-    /* Barre de recherche mobile */
-    .search-container {
-        position: absolute; /* Positionnement absolu dans la navbar */
-        left: 60%;
-        transform: translateX(-50%); /* Centre horizontalement */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 30%;
-        margin: 15px 0;
-    }
-
-    .search-container input {
-        font-size: 1rem;
-        padding: 8px;
-        width: 100%;
-        max-width: 300px;
-        box-sizing: border-box;
-    }
 }

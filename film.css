@@ -83,6 +83,90 @@ iframe {
     margin-top: 20px;
     color: #ecf0f1;
 }
+/* Style général */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #000;
+    color: white;
+    margin: 0;
+}
+
+/* Overlay sombre */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    z-index: 999;
+}
+
+/* Popup premium */
+#popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #141414;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    display: none;
+    z-index: 1000;
+    width: 350px;
+    max-width: 90%;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+    border: 2px solid rgba(255, 0, 0, 0.5);
+}
+
+#popup h2 {
+    color: #e50914;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+#popup p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Boutons stylisés */
+button {
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: background 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+}
+
+/* Bouton Installer */
+.install-btn {
+    background: #e50914;
+    color: white;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.install-btn:hover {
+    background: #b20710;
+    transform: scale(1.05);
+}
+
+/* Bouton Fermer */
+.close-btn {
+    background: #333;
+    color: white;
+    width: 100%;
+}
+
+.close-btn:hover {
+    background: #444;
+    transform: scale(1.05);
+}
 
 /* Stylisation pour les petits écrans (mobile-friendly) */
 @media (max-width: 768px) {
