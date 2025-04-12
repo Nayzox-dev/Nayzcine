@@ -185,7 +185,7 @@ function setupSearch() {
 
         const results = allMovies
             .filter(movie => movie.title.toLowerCase().includes(query) && hasValidImage(movie)) 
-            .slice(0, 5);
+            .slice(0, 50);
         
         if (results.length > 0) {
             results.forEach(movie => {

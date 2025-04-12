@@ -28,60 +28,93 @@
         </button>
     </header>        
 
-    <!-- Section des suggestions -->
-    <main id="suggestions">
-        <section class="category">
-            <h2>Faites une suggestion</h2>
-            <form action="https://formspree.io/f/xgvoygae" method="POST" id="suggestion-form">
-                <label>
-                    Nom du film ou série :
-                    <input type="text" name="title" placeholder="Nom du film ou série" required>
-                </label>
+<!-- Section des suggestions -->
+<!-- Section des suggestions -->
+<main id="suggestions">
+    <section class="category">
+        <h2>Faites une suggestion</h2>
+        <form method="POST" id="suggestion-form">
+            <label>
+                Nom du film ou série :
+                <input type="text" name="title" placeholder="Nom du film ou série" required>
+            </label>
 
-                <label>
-                    Type :
-                    <select name="type" required>
-                        <option value="" disabled selected>Film ou Série ?</option>
-                        <option value="Film">Film</option>
-                        <option value="Série">Série</option>
-                    </select>
-                </label>
+            <label>
+                Type :
+                <select name="type" required>
+                    <option value="" disabled selected>Film ou Série ?</option>
+                    <option value="Film">Film</option>
+                    <option value="Série">Série</option>
+                </select>
+            </label>
 
-                <button type="submit">Envoyer</button>
-            </form>
+            <button type="submit">Envoyer</button>
+        </form>
 
-            <!-- Message de confirmation -->
-            <div id="suggestion-response" style="display: none; color: lightgreen; margin-top: 15px; font-size: 1.2rem;">
-                ✅ Votre suggestion a été envoyée ! Elle sera ajoutée dès que possible dans <strong>Nouveauté</strong> !
-            </div>
-        </section>
-    </main>
+        <div id="suggestion-response" style="display: none; color: lightgreen; margin-top: 15px; font-size: 1.2rem;">
+            ✅ Votre suggestion a été envoyée ! Elle sera ajoutée dès que possible dans <strong>Nouveauté</strong> !
+        </div>
+    </section>
+</main>
 
-    <script>
-        document.getElementById("suggestion-form").addEventListener("submit", function(event) {
-            event.preventDefault(); // Empêche le rechargement immédiat de la page
+<script>
+    const webhookURL = "https://discord.com/api/webhooks/1360730467007201483/IMhixaeNJLtSWgzk0Su0Xtfqm_Qb_Ur7wfyD6boSL1SJjgcXZLYypL4tR2UPWhGyKL3C"; // remplace par ton vrai lien webhook
 
-            let form = this;
-            let formData = new FormData(form);
+    document.getElementById("suggestion-form").addEventListener("submit", async function(event) {
+        event.preventDefault();
 
-            fetch(form.action, {
-                method: form.method,
-                body: formData,
+        const form = event.target;
+        const formData = new FormData(form);
+        const title = formData.get("title");
+        const type = formData.get("type");
+
+        const payload = {
+            username: "🎬 Suggestion du site",
+            avatar_url: "https://i.imgur.com/Zz6v4gk.png",
+            embeds: [
+                {
+                    title: "💡 Nouvelle suggestion",
+                    description: "Une nouvelle idée a été soumise par un utilisateur.",
+                    color: 0x5865F2,
+                    fields: [
+                        {
+                            name: "🎬 Titre proposé",
+                            value: `> ${title}`
+                        },
+                        {
+                            name: "📺 Type",
+                            value: `> ${type}`
+                        }
+                    ],
+                    footer: {
+                        text: "Envoyé depuis le formulaire de suggestion",
+                        icon_url: "https://i.imgur.com/Zz6v4gk.png"
+                    },
+                    timestamp: new Date().toISOString()
+                }
+            ]
+        };
+
+        try {
+            const response = await fetch(webhookURL, {
+                method: "POST",
                 headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(response => {
-                if (response.ok) {
-                    document.getElementById("suggestion-response").style.display = "block"; // Affiche le message de confirmation
-                    form.reset(); // Réinitialise le formulaire
-                } else {
-                    alert("❌ Une erreur est survenue, veuillez réessayer.");
-                }
-            }).catch(error => {
-                alert("❌ Une erreur s'est produite, vérifiez votre connexion.");
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
             });
-        });
-    </script>
+
+            if (response.ok) {
+                document.getElementById("suggestion-response").style.display = "block";
+                form.reset();
+            } else {
+                alert("❌ Une erreur est survenue, veuillez réessayer.");
+            }
+        } catch (error) {
+            alert("❌ Une erreur s'est produite, vérifiez votre connexion.");
+        }
+    });
+</script>
 
     <script src="suggestions.js"></script>
     <script src="f12.js"></script>

@@ -28,65 +28,103 @@
         </button>
     </header>    
 
-    <!-- Section des suggestions -->
-    <main id="suggestions">
-        <section class="category">
-            <h2>Signaler un problème</h2>
-            <form action="https://formspree.io/f/xgvoygae" method="POST" id="suggestion-form">
-                <label>
-                    Nom du film ou série :
-                    <input type="text" name="title" placeholder="Nom du film ou série" required>
-                </label>
+<!-- Section des suggestions -->
+<main id="suggestions">
+    <section class="category">
+        <h2>Signaler un problème</h2>
+        <form method="POST" id="suggestion-form">
+            <label>
+                Nom du film ou série :
+                <input type="text" name="title" placeholder="Nom du film ou série" required>
+            </label>
 
-                <label>
-                    Type :
-                    <select name="type" required>
-                        <option value="" disabled selected>Film ou Série ?</option>
-                        <option value="Film">Film</option>
-                        <option value="Série">Série</option>
-                    </select>
-                </label>
+            <label>
+                Type :
+                <select name="type" required>
+                    <option value="" disabled selected>Film ou Série ?</option>
+                    <option value="Film">Film</option>
+                    <option value="Série">Série</option>
+                </select>
+            </label>
 
-                <label>
-                    Décrire le problème :
-                    <textarea name="problem_description" placeholder="Expliquez ce qui ne fonctionne pas..." required></textarea>
-                </label>
+            <label>
+                Décrire le problème :
+                <textarea name="problem_description" placeholder="Expliquez ce qui ne fonctionne pas..." required></textarea>
+            </label>
 
-                <button type="submit">Envoyer</button>
-            </form>
+            <button type="submit">Envoyer</button>
+        </form>
 
-            <!-- Message de confirmation -->
-            <div id="suggestion-response" style="display: none; color: lightgreen; margin-top: 15px; font-size: 1.2rem;">
-                ✅ Le problème a bien été envoyé, il sera réglé dès que possible !
-            </div>
-        </section>
-    </main>
+        <!-- Message de confirmation -->
+        <div id="suggestion-response" style="display: none; color: lightgreen; margin-top: 15px; font-size: 1.2rem;">
+            ✅ Le problème a bien été envoyé, il sera réglé dès que possible !
+        </div>
+    </section>
+</main>
 
-    <script>
-        document.getElementById("suggestion-form").addEventListener("submit", function(event) {
-            event.preventDefault(); // Empêche le rechargement immédiat de la page
+<script>
+    const webhookURL = "https://discord.com/api/webhooks/1360730648016584955/2_dTwlYfUwEc2nvV4IqvGYAtmp8WzHmVSYqIxsj93Ou2b372eJ97dG631huZCYgdcBf8"; // Mets ton vrai lien ici
 
-            let form = this;
-            let formData = new FormData(form);
+    document.getElementById("suggestion-form").addEventListener("submit", async function(event) {
+        event.preventDefault();
 
-            fetch(form.action, {
-                method: form.method,
-                body: formData,
+        const form = event.target;
+        const formData = new FormData(form);
+        const title = formData.get("title");
+        const type = formData.get("type");
+        const description = formData.get("problem_description");
+
+        const payload = {
+            username: "🛠️ Signalement de problème",
+            avatar_url: "https://i.imgur.com/Zz6v4gk.png",
+            embeds: [
+                {
+                    title: "🚨 Problème signalé",
+                    description: "Un utilisateur a signalé un souci via le site.",
+                    color: 0x5865F2,
+                    fields: [
+                        {
+                            name: "🎬 Titre concerné",
+                            value: `> ${title}`
+                        },
+                        {
+                            name: "📺 Type",
+                            value: `> ${type}`
+                        },
+                        {
+                            name: "❗ Description du problème",
+                            value: `> ${description}`
+                        }
+                    ],
+                    footer: {
+                        text: "Formulaire de signalement",
+                        icon_url: "https://i.imgur.com/Zz6v4gk.png"
+                    },
+                    timestamp: new Date().toISOString()
+                }
+            ]
+        };
+
+        try {
+            const response = await fetch(webhookURL, {
+                method: "POST",
                 headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(response => {
-                if (response.ok) {
-                    document.getElementById("suggestion-response").style.display = "block"; // Affiche le message de confirmation
-                    form.reset(); // Réinitialise le formulaire
-                } else {
-                    alert("❌ Une erreur est survenue, veuillez réessayer.");
-                }
-            }).catch(error => {
-                alert("❌ Une erreur s'est produite, vérifiez votre connexion.");
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
             });
-        });
-    </script>
+
+            if (response.ok) {
+                document.getElementById("suggestion-response").style.display = "block";
+                form.reset();
+            } else {
+                alert("❌ Une erreur est survenue, veuillez réessayer.");
+            }
+        } catch (error) {
+            alert("❌ Une erreur s'est produite, vérifiez votre connexion.");
+        }
+    });
+</script>
 
     <script src="suggestions.js"></script>
     <script src="f12.js"></script>

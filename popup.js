@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
             console.log("Affichage de la popup...");
             popup.style.display = "block";
             overlay.style.display = "block";
-        }, 3000); // Affichage après 3 secondes
+        }, 1000); // Affichage après 3 secondes
     } else {
         console.error("Popup ou overlay introuvable !");
     }
@@ -20,3 +20,9 @@ function closePopup() {
     document.getElementById("popup").style.display = "none";
     document.getElementById("overlay").style.display = "none";
 }
+
+
+
+///////////////////////////////////
+
+
