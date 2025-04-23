@@ -24,95 +24,94 @@
         </div>
         <!-- 🍔 Menu Burger -->
         <button class="burger-menu">
-            <span>&#9776;</span> <!-- Symbole du hamburger -->
+            <span>&#9776;</span>
         </button>
     </header>        
 
-<!-- Section des suggestions -->
-<!-- Section des suggestions -->
-<main id="suggestions">
-    <section class="category">
-        <h2>Faites une suggestion</h2>
-        <form method="POST" id="suggestion-form">
-            <label>
-                Nom du film ou série :
-                <input type="text" name="title" placeholder="Nom du film ou série" required>
-            </label>
+    <!-- Section des suggestions -->
+    <main id="suggestions">
+        <section class="category">
+            <h2>Faites une suggestion</h2>
+            <form method="POST" id="suggestion-form">
+                <label>
+                    Nom du film ou série :
+                    <input type="text" name="title" placeholder="Nom du film ou série" required>
+                </label>
 
-            <label>
-                Type :
-                <select name="type" required>
-                    <option value="" disabled selected>Film ou Série ?</option>
-                    <option value="Film">Film</option>
-                    <option value="Série">Série</option>
-                </select>
-            </label>
+                <label>
+                    Type :
+                    <select name="type" required>
+                        <option value="" disabled selected>Film ou Série ?</option>
+                        <option value="Film">Film</option>
+                        <option value="Série">Série</option>
+                    </select>
+                </label>
 
-            <button type="submit">Envoyer</button>
-        </form>
+                <button type="submit">Envoyer</button>
+            </form>
 
-        <div id="suggestion-response" style="display: none; color: lightgreen; margin-top: 15px; font-size: 1.2rem;">
-            ✅ Votre suggestion a été envoyée ! Elle sera ajoutée dès que possible dans <strong>Nouveauté</strong> !
-        </div>
-    </section>
-</main>
+            <div id="suggestion-response" style="display: none; color: lightgreen; margin-top: 15px; font-size: 1.2rem;">
+                ✅ Votre suggestion a été envoyée ! Elle sera ajoutée dès que possible dans <strong>Nouveauté</strong> !
+            </div>
+        </section>
+    </main>
 
-<script>
-    const webhookURL = "https://discord.com/api/webhooks/1360730467007201483/IMhixaeNJLtSWgzk0Su0Xtfqm_Qb_Ur7wfyD6boSL1SJjgcXZLYypL4tR2UPWhGyKL3C";
+    <script>
+        const webhookURL = "https://discord.com/api/webhooks/1360730467007201483/IMhixaeNJLtSWgzk0Su0Xtfqm_Qb_Ur7wfyD6boSL1SJjgcXZLYypL4tR2UPWhGyKL3C";
 
-    document.getElementById("suggestion-form").addEventListener("submit", async function(event) {
-        event.preventDefault();
+        document.getElementById("suggestion-form").addEventListener("submit", async function(event) {
+            event.preventDefault();
 
-        const form = event.target;
-        const formData = new FormData(form);
-        const title = formData.get("title");
-        const type = formData.get("type");
+            const form = event.target;
+            const formData = new FormData(form);
+            const title = formData.get("title");
+            const type = formData.get("type");
 
-        const payload = {
-            username: "🎬 Suggestion du site",
-            avatar_url: "https://i.imgur.com/Zz6v4gk.png",
-            embeds: [
-                {
-                    title: "💡 Nouvelle suggestion",
-                    description: "Une nouvelle idée a été soumise par un utilisateur.",
-                    color: 0x5865F2,
-                    fields: [
-                        {
-                            name: "🎬 Titre proposé",
-                            value: `> ${title}`
+            const payload = {
+                username: "🎬 Suggestion du site",
+                avatar_url: "https://i.imgur.com/Zz6v4gk.png",
+                embeds: [
+                    {
+                        title: "💡 Nouvelle suggestion",
+                        description: "Une nouvelle idée a été soumise par un utilisateur.",
+                        color: 0x5865F2,
+                        fields: [
+                            {
+                                name: "🎬 Titre proposé",
+                                value: `> ${title}`
+                            },
+                            {
+                                name: "📺 Type",
+                                value: `> ${type}`
+                            }
+                        ],
+                        footer: {
+                            text: "Envoyé depuis le formulaire de suggestion",
+                            icon_url: "https://i.imgur.com/Zz6v4gk.png"
                         },
-                        {
-                            name: "📺 Type",
-                            value: `> ${type}`
-                        }
-                    ],
-                    footer: {
-                        text: "Envoyé depuis le formulaire de suggestion",
-                        icon_url: "https://i.imgur.com/Zz6v4gk.png"
+                        timestamp: new Date().toISOString()
+                    }
+                ]
+            };
+
+            try {
+                const response = await fetch(webhookURL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
                     },
-                    timestamp: new Date().toISOString()
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    document.getElementById("suggestion-response").style.display = "block";
+                    form.reset();
                 }
-            ]
-        };
-
-        try {
-            const response = await fetch(webhookURL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                document.getElementById("suggestion-response").style.display = "block";
-                form.reset();
+            } catch (error) {
+                // Erreurs silencieuses
             }
-        } catch (error) {
-            // Rien, aucune notification ni log
-        }
-    });
-</script>
+        });
+    </script>
 
     <script src="suggestions.js"></script>
     <!-- <script src="f12.js"></script> -->
