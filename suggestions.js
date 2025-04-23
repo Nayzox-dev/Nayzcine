@@ -35,18 +35,15 @@ document.addEventListener("DOMContentLoaded", function () {
             method: form.method,
             body: formData,
             headers: {
-            'Accept': 'application/json'
+                'Accept': 'application/json'
             }
         }).then(response => {
             if (response.ok) {
                 document.getElementById("suggestion-response").style.display = "block"; // Affiche le message de confirmation
                 form.reset(); // Réinitialise le formulaire
-            } else {
-                alert("❌ Une erreur est survenue, veuillez réessayer.");
             }
         }).catch(error => {
-            alert("❌ Une erreur s'est produite, vérifiez votre connexion.");
+            // Pas de notification ou de log
         });
     });
-
 });
