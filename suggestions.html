@@ -58,7 +58,7 @@
 </main>
 
 <script>
-    const webhookURL = "https://discord.com/api/webhooks/1360730467007201483/IMhixaeNJLtSWgzk0Su0Xtfqm_Qb_Ur7wfyD6boSL1SJjgcXZLYypL4tR2UPWhGyKL3C"; // remplace par ton vrai lien webhook
+    const webhookURL = "https://discord.com/api/webhooks/1360730467007201483/IMhixaeNJLtSWgzk0Su0Xtfqm_Qb_Ur7wfyD6boSL1SJjgcXZLYypL4tR2UPWhGyKL3C";
 
     document.getElementById("suggestion-form").addEventListener("submit", async function(event) {
         event.preventDefault();
@@ -107,17 +107,15 @@
             if (response.ok) {
                 document.getElementById("suggestion-response").style.display = "block";
                 form.reset();
-            } else {
-                alert("❌ Une erreur est survenue, veuillez réessayer.");
             }
         } catch (error) {
-            alert("❌ Une erreur s'est produite, vérifiez votre connexion.");
+            // Rien, aucune notification ni log
         }
     });
 </script>
 
     <script src="suggestions.js"></script>
-    <script src="f12.js"></script>
+    <!-- <script src="f12.js"></script> -->
     <script src="phone.js"></script>
 
 </body>
