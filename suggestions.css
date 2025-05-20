@@ -10,21 +10,15 @@ body {
     background-color: #0a0a0a;
     color: white;
     overflow-x: hidden;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding-top: 12vh; /* espace pour la navbar */
 }
 
-/* 🎯 NAVBAR identique à index.html */
+/* 🎯 NAVBAR */
 .navbar {
     position: fixed;
     top: 2vh;
     left: 50%;
     transform: translateX(-50%);
-    width: 85vw;
+    width: 90vw;
     height: 10vh;
     display: flex;
     align-items: center;
@@ -53,7 +47,7 @@ body {
 }
 
 .logo:hover {
-    transform: scale(1.1);
+    transform: scale(1.1); /* Effet de zoom au survol */
 }
 
 .menu {
@@ -83,7 +77,7 @@ body {
     padding: 1.5vh 2vw;
 }
 
-/* 🔍 BARRE DE RECHERCHE (si présente) */
+/* 🔍 BARRE DE RECHERCHE */
 .search-container {
     display: flex;
     justify-content: center;
@@ -111,13 +105,11 @@ body {
     outline: none;
 }
 
-/* 📝 FORMULAIRE CENTRÉ */
+/* 📝 FORMULAIRES (Suggestions et Report) */
 #suggestions {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    margin-top: 120px;
+    padding: 40px;
+    text-align: center;
 }
 
 .category {
@@ -126,8 +118,7 @@ body {
     border-radius: 10px;
     box-shadow: 0px 4px 15px rgba(255, 0, 0, 0.4);
     max-width: 500px;
-    width: 90%;
-    text-align: center;
+    margin: auto;
 }
 
 .category h2 {
@@ -143,7 +134,6 @@ body {
     align-items: center;
     gap: 20px;
     max-width: 450px;
-    width: 100%;
     margin: auto;
 }
 
@@ -208,4 +198,27 @@ body {
     font-size: 1.2rem;
     color: lightgreen;
     display: none;
+}
+
+/* 🍔 MENU BURGER */
+.burger-menu {
+    display: none;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    z-index: 1100;
+    order: 2;
+    margin-left: auto;
+    padding: 8px;
+}
+
+.burger-menu span {
+    display: block;
+    width: 4vw; /* Largeur dynamique en fonction de la largeur de l'écran */
+    height: 0.6vw; /* Hauteur dynamique en fonction de la largeur de l'écran */
+    margin: 0.6vw auto; /* Espacement dynamique entre les barres */
+    background-color: rgba(189, 0, 0, 0); /* Couleur des barres */
+    border-radius: 0.2vw; /* Coins arrondis pour un effet plus doux */
 }

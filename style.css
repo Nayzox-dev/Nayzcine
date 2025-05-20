@@ -1,354 +1,61 @@
-
-/* 🎬 Styles généraux */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
 }
 
 body {
-    background-color: #0a0a0a;
+    font-family: 'Arial', sans-serif;
+    background-color: #141414;
+    background-image: url('catalogue.png');
+    background-size: cover;
+    background-position: center;
     color: white;
-    overflow-x: hidden;
-}
-
-/* 🎯 NAVBAR */
-.navbar {
-    position: fixed;
-    top: 2vh;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 85vw;
-    height: 10vh;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5vw 2vw;
-    background: rgba(0, 0, 0, 0.85);
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    z-index: 1000;
-    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
-}
-
-.navbar.scrolled {
-    background: rgba(0, 0, 0, 0.95);
-    box-shadow: 0px 4px 15px rgba(255, 0, 0, 0.6);
-}
-
-.logo {
-    font-size: 2.2vw;
-    font-weight: bold;
-    color: red;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    transition: transform 0.3s ease;
-    flex-shrink: 0;
-}
-
-.menu {
-    display: flex;
-    gap: 1.5vw;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.menu a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.2vw;
-    font-weight: bold;
-    padding: 1.5vh 1vw;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.menu a:hover,
-.menu a.active {
-    background: red;
-    box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.6);
-    transform: scale(1.05);
-    padding: 1.5vh 2vw;
-}
-
-/* 🔍 BARRE DE RECHERCHE */
-.search-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    max-width: 250px;
-    margin-left: 1.5vw;
-    transition: transform 0.3s ease;
-}
-
-#search {
-    width: 100%;
-    padding: 1vw;
-    border-radius: 10vw;
-    background: #222;
-    color: white;
-    border: 1px solid #555;
-    font-size: 1vw;
-    transition: border 0.3s ease;
-    cursor: pointer;
-}
-
-#search:focus {
-    border: 1px solid red;
-    outline: none;
-}
-
-/* 📌 Résultats de recherche */
-#search-results {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    width: 100%;
-    background: #222;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.3);
-    display: none;
-    flex-direction: column;
-    padding: 8px;
-    z-index: 999;
-    max-height: 300px;
-    overflow-y: auto;
-}
-
-.search-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.search-item:hover {
-    background: #333;
-}
-
-.small-thumbnail {
-    width: 40px;
-    height: 40px;
-    object-fit: cover;
-    border-radius: 5px;
-}
-
-/* 🏆 SECTIONS DE FILMS */
-#categories {
-    margin-top: 15vh;
-    padding: 2.5%;
-}
-
-.category {
-    margin-bottom: 50px;
-}
-
-.category h2 {
-    font-size: 2.5vw;
-    color: white;
-    font-weight: bold;
-    margin-bottom: 25px;
-}
-
-/* 🎞️ SLIDER HORIZONTAL */
-.movies-row {
-    display: flex;
-    overflow-x: auto;
-    padding-bottom: 12px;
-    gap: 20px;
-    scrollbar-width: thin;
-    scrollbar-color: red transparent;
-}
-
-.movies-row::-webkit-scrollbar {
-    height: 6px;
-}
-
-.movies-row::-webkit-scrollbar-thumb {
-    background: red;
-    border-radius: 10px;
-}
-
-/* 🍿 CARTES DE FILMS */
-.movie-card {
-    min-width: 15%;
-    height: auto;
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    aspect-ratio: 16/9;
-}
-
-.movie-card:hover {
-    transform: scale(1.1);
-    box-shadow: 0px 15px 25px rgba(255, 0, 0, 0.6);
-}
-
-.movie-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
-}
-
-.movie-card h3 {
-    position: absolute;
-    bottom: 5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
+    height: 100vh;
     text-align: center;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 6px;
-    font-size: 1vw;
-    border-radius: 5px;
-    transition: opacity 0.3s ease;
-    opacity: 0;
 }
 
-.movie-card:hover h3 {
-    opacity: 1;
-}
-
-/* 📺 MODAL ÉPISODES */
-.episodes-modal {
-    position: fixed;
+.overlay {
+    position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Effet sombre sur l'arrière-plan */
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: center;
-    z-index: 1000;
 }
 
-.modal-content {
-    background: #222;
-    padding: 25px;
-    border-radius: 12px;
-    text-align: center;
-    width: 60%;
-    max-width: 600px;
-    box-shadow: 0px 6px 15px rgba(255, 0, 0, 0.7);
+.content h1 {
+    font-size: 3.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    color: #e50914; /* Rouge Netflix */
 }
 
-.episodes-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.episode-btn {
-    background: red;
+.content p {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    font-weight: 300;
     color: white;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1.5vw;
 }
 
-.episode-btn:hover {
-    background: darkred;
-}
-
-.close-modal {
-    margin-top: 20px;
-    background: #444;
-    color: white;
-    border: none;
-    padding: 12px 18px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-.close-modal:hover {
-    background: #666;
-}
-
-#popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(4px);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-#popup-content {
-  background: #1a1a1a;
-  padding: 30px 40px;
-  border-radius: 20px;
-  color: white;
-  max-width: 500px;
-  width: 90%;
-  max-height: 80vh; /* ✅ Limite de hauteur */
-  overflow-y: auto;  /* ✅ Scroll interne */
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-  text-align: center;
-}
-
-.popup-title {
-  font-size: 1.8em;
-  margin-bottom: 20px;
-  color: #fff;
-  border-bottom: 1px solid #444;
-  padding-bottom: 10px;
-}
-
-.episode-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.episode-btn {
-  background: red;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: background 0.3s ease;
-  border: none;
-  cursor: pointer;
-}
-
-.episode-btn:hover {
-  background: darkred;
-}
-
-.popup-close-btn {
-  background: #444;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-.popup-close-btn:hover {
-  background: #666;
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    .logo {
+        width: 150px; /* Logo encore plus petit sur mobile */
+    }
+    .content h1 {
+        font-size: 2.5em;
+    }
+    .content p {
+        font-size: 1em;
+    }
 }
