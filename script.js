@@ -1,259 +1,324 @@
-let allMovies = [];
+document.addEventListener("DOMContentLoaded", async () => {
+  // URLs de données
+  const filmURL = "fsa-film.json";
+  const serieURL = "fsa-serie.json";
+  const animeURL = "fsa-anime.json";
 
-async function loadMovies() {
-    const response = await fetch('fsa.json');
-    const movies = await response.json();
-    allMovies = movies;
+  // Sections du DOM
+  const filmsContainer = document.getElementById("films");
+  const seriesContainer = document.getElementById("series");
+  const animesContainer = document.getElementById("animes");
+  const newReleasesContainer = document.getElementById("new-releases");
 
-    const shuffleArray = (array) => array.sort(() => Math.random() - 0.5);
+  // Navbar - éléments desktop & mobile
+  const searchInput = document.getElementById("search");
+  const searchResults = document.getElementById("search-results");
+  const burgerMenu = document.getElementById("burger-menu");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const loupeBtn = document.getElementById("loupe-btn");
+  const mobileSearchBox = document.getElementById("mobile-search-box");
+  const mobileSearchInput = document.getElementById("mobile-search");
+  const mobileSearchResults = document.getElementById("mobile-search-results");
 
-    // Filtrer les films, séries et nouveautés en supprimant les doublons
-    let films = removeDuplicates(shuffleArray(movies.filter(movie => isFilm(movie) && hasValidImage(movie))), false).slice(0, 20);
-    let series = removeDuplicates(shuffleArray(movies.filter(movie => isSeriesOrAnime(movie) && hasValidImage(movie))), true).slice(0, 20);
-    let newReleases = removeDuplicates(movies.slice(-50).reverse(), true).slice(0, 10); // ✅ 10 derniers sans doublons
+  // Popup
+  const popup = document.getElementById("popup");
+  const popupContent = document.getElementById("popup-content");
 
-    displayMovies(newReleases, "new-releases");
-    displayMovies(films, "films");
-    displayMovies(series, "series");
+  // Données
+  const displayedTitles = new Set();
+  let allData = [];
 
-    setupSearch();
-}
+  // --- UTILITAIRES ---
 
-// 📌 Vérifier si un film/série a une image valide
-function hasValidImage(movie) {
-    return movie.media && movie.media.trim() !== "" && movie.media.startsWith("http");
-}
+  function cleanTitle(title) {
+    return title
+      .toLowerCase()
+      .replace(/saison\s*\d+/gi, "")
+      .replace(/s\d+/gi, "")
+      .replace(/épisode\s*\d+/gi, "")
+      .replace(/ep\d+/gi, "")
+      .replace(/episode\s*\d+/gi, "")
+      .replace(/\d+$/, "")
+      .trim();
+  }
 
-// 📌 Supprimer les doublons des films, séries et nouveautés
-function removeDuplicates(movieList, isSeries = false) {
-    let uniqueMovies = {};
-    
-    movieList.forEach(movie => {
-        let cleanTitle = isSeries ? normalizeSeriesTitle(movie.title) : movie.title;
-        if (!uniqueMovies[cleanTitle]) {
-            uniqueMovies[cleanTitle] = movie;
-            if (isSeries) uniqueMovies[cleanTitle].title = cleanTitle; // Normaliser le titre affiché
-        }
-    });
+  function extractLink(description) {
+    if (!description) return null;
+    const match = description.match(/https:\/\/uqload\.net\/embed-[\w\d]+\.html/);
+    return match ? match[0] : null;
+  }
 
-    return Object.values(uniqueMovies);
-}
+  function extractEpisodes(description) {
+    if (!description) return [];
+    const matches = [...description.matchAll(/https:\/\/(mega\.nz|uqload\.net)\/[^\s]+/g)];
+    return matches.map(m => m[0]);
+  }
 
-// 🍔 MENU BURGER
-const burgerMenu = document.querySelector(".burger-menu");
-const menu = document.querySelector(".menu");
+  async function fetchData(url) {
+    const res = await fetch(url);
+    return await res.json();
+  }
 
-if (burgerMenu && menu) {
-    burgerMenu.addEventListener("click", function () {
-        menu.classList.toggle("active");
-    });
-}
+  function shuffleArray(array) {
+    return [...array].sort(() => Math.random() - 0.5);
+  }
 
-// 📌 Normaliser les titres des séries (suppression des S1, Saison 1, etc.)
-function normalizeSeriesTitle(title) {
-    return title.replace(/\s*(Saison|S|S-) ?\d+/gi, "").trim();
-}
+  // --- AFFICHAGE & POPUP ---
 
-// 📌 Détection FILM
-function isFilm(movie) {
-    return movie.category.toLowerCase() === "film" && extractAllLinks(movie.description).length === 1;
-}
-
-// 📌 Détection SÉRIE/ANIME
-function isSeriesOrAnime(movie) {
-    const validCategories = ["série", "serie", "anime", "animé"];
-    return validCategories.includes(movie.category.toLowerCase()) && extractAllLinks(movie.description).length > 1;
-}
-
-// 📌 Affichage des films et séries
-function displayMovies(movieList, containerId) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = "";
-
-    let displayedTitles = new Set();
-
-    movieList.forEach(movie => {
-        if (!hasValidImage(movie) || displayedTitles.has(movie.title)) return;
-
-        displayedTitles.add(movie.title);
-
-        const movieDiv = document.createElement("div");
-        movieDiv.classList.add("movie-card");
-        movieDiv.innerHTML = `
-            <img src="${movie.media}" alt="${movie.title}" onerror="this.parentNode.remove()">
-            <h3>${movie.title}</h3>
-        `;
-
-        movieDiv.addEventListener("click", () => handleClick(movie));
-        container.appendChild(movieDiv);
-    });
-}
-
-function handleClick(movie) {
-    const links = extractAllLinks(movie.description);
-
-    if (isFilm(movie)) {
-        // Modifier l'URL du lien pour les films
-        const modifiedLink = links[0].replace('https://uqload.net/', 'https://uqload.net/embed-');
-        
-        // Rediriger vers film.html avec les paramètres pour un film
-        const encodedTitle = encodeURIComponent(movie.title);  // Encodage pour l'URL
-        const encodedLink = encodeURIComponent(modifiedLink);  // Encodage pour l'URL
-        window.location.href = `film.html?title=${encodedTitle}&link=${encodedLink}&type=film`;
-    } else if (isSeriesOrAnime(movie)) {
-        // Pour les séries, on suppose que l'utilisateur veut un épisode spécifique
-        showEpisodesModal(movie.title, links); // Affiche le modal pour les séries
-    } else {
-        alert("Aucun lien trouvé pour ce contenu.");
-    }
-}
-
-// 📌 Gérer le clic sur un épisode d'une série
-function handleEpisodeClick(episodeLink, title) {
-    // Vérifier si l'URL de l'épisode contient 'https://uqload.net/'
-    if (episodeLink.includes('https://uqload.net/')) {
-        // Modifier l'URL de l'épisode, en ajoutant 'embed-' au lieu de 'https://uqload.net/'
-        const modifiedLink = episodeLink.replace('https://uqload.net/', 'https://uqload.net/embed-');
-
-        // Encodage des paramètres pour l'URL
-        const encodedLink = encodeURIComponent(modifiedLink);  // Encodage du lien modifié
-        const encodedTitle = encodeURIComponent(title);  // Encodage du titre de la série
-
-        // Affichage dans la console pour vérifier si le lien a été modifié
-        console.log(`Lien modifié pour la redirection: ${modifiedLink}`);
-
-        // Rediriger vers film.html avec l'épisode traité comme un film
-        window.location.href = `film.html?title=${encodedTitle}&link=${encodedLink}&type=film`;
-    } else {
-        alert("Le lien de l'épisode est invalide.");
-    }
-}
-
-// 📌 Nettoyer les URL (supprime les parenthèses à la fin)
-function cleanURL(url) {
-    return url.replace(/\)$/, "");
-}
-
-// 📌 Extraction de **TOUS** les liens présents dans une description
-function extractAllLinks(description) {
-    const linkRegex = /(https?:\/\/[^\s]+)/g;
-    return description.match(linkRegex) ? description.match(linkRegex).map(cleanURL) : [];
-}
-
-// 📌 Affichage du pop-up des épisodes
-function showEpisodesModal(title, episodeLinks) {
-    if (episodeLinks.length === 0) {
-        alert("Aucun épisode disponible.");
-        return;
-    }
-
-    let modal = document.createElement("div");
-    modal.classList.add("episodes-modal");
-    modal.innerHTML = `
-        <div class="modal-content">
-            <h2>${title}</h2>
-            <div class="episodes-list">
-                ${episodeLinks.map((url, index) => `
-                    <button class="episode-btn" onclick="handleEpisodeClick('${url}', '${title}')">
-                        Épisode ${index + 1}
-                    </button>
-                `).join("")}
-            </div>
-            <button class="close-modal" onclick="closeEpisodesModal()">Fermer</button>
-        </div>
+  function openPopup(title, episodes) {
+    popupContent.innerHTML = `
+      <h3 class="popup-title">${title}</h3>
+      <div class="episode-buttons"></div>
+      <button class="popup-close-btn" id="popup-close-inside">Fermer</button>
     `;
-
-    document.body.appendChild(modal);
-}
-
-// 📌 Fermeture du pop-up
-function closeEpisodesModal() {
-    document.querySelector(".episodes-modal").remove();
-}
-
-// 📌 Configuration de la barre de recherche
-function setupSearch() {
-    const searchInput = document.getElementById("search");
-    const resultsContainer = document.getElementById("search-results");
-
-    searchInput.addEventListener("input", function () {
-        const query = this.value.toLowerCase().trim();
-        resultsContainer.innerHTML = "";
-        resultsContainer.style.display = "none";
-
-        if (query.length === 0) return;
-
-        const results = allMovies
-            .filter(movie => movie.title.toLowerCase().includes(query) && hasValidImage(movie)) 
-            .slice(0, 50);
-        
-        if (results.length > 0) {
-            results.forEach(movie => {
-                const resultItem = document.createElement("div");
-                resultItem.classList.add("search-item");
-                resultItem.innerHTML = `
-                    <img class="small-thumbnail" src="${movie.media}" alt="${movie.title}">
-                    <span>${highlightMatch(movie.title, query)}</span>
-                `;
-                resultItem.addEventListener("click", () => handleClick(movie));
-
-                resultsContainer.appendChild(resultItem);
-            });
-            resultsContainer.style.display = "block";
+    const buttonsContainer = popupContent.querySelector(".episode-buttons");
+    episodes.forEach((url, index) => {
+      const btn = document.createElement("button");
+      btn.classList.add("episode-btn");
+      btn.textContent = `Lien ${index + 1}`;
+      btn.addEventListener("click", () => {
+        if (url.includes("uqload.net")) {
+          const redirectURL = `film.html?title=${encodeURIComponent(`${title} - Épisode ${index + 1}`)}&link=${encodeURIComponent(url)}`;
+          window.location.href = redirectURL;
+        } else {
+          window.open(url, "_blank");
         }
+      });
+      buttonsContainer.appendChild(btn);
     });
+    popup.style.display = "flex";
+    document.getElementById("popup-close-inside").addEventListener("click", () => {
+      popup.style.display = "none";
+    });
+    // Fermer popup au clic dehors
+    setTimeout(() => {
+      document.addEventListener("mousedown", closeOnClickOutside);
+    }, 10);
+    function closeOnClickOutside(e) {
+      if (!popupContent.contains(e.target)) {
+        popup.style.display = "none";
+        document.removeEventListener("mousedown", closeOnClickOutside);
+      }
+    }
+  }
 
-    document.addEventListener("click", (event) => {
-        if (!searchInput.contains(event.target) && !resultsContainer.contains(event.target)) {
-            resultsContainer.style.display = "none";
+  function createCard(item) {
+    const card = document.createElement("div");
+    card.classList.add("movie-card");
+
+    const img = document.createElement("img");
+    img.onerror = () => card.remove();
+    img.src = item.media;
+
+    const title = document.createElement("h3");
+    title.textContent = item.title;
+
+    card.append(img, title);
+
+    card.addEventListener("click", () => {
+      if (item.category === "film" && item.link) {
+        const url = `film.html?title=${encodeURIComponent(item.title)}&link=${encodeURIComponent(item.link)}`;
+        window.location.href = url;
+      } else if (item.category === "serie" && item.episodes?.length > 1) {
+        openPopup(item.title, item.episodes);
+      } else if (item.category === "anime") {
+        const episodes = extractEpisodes(item.description);
+        if (episodes.length > 1) {
+          openPopup(item.title, episodes);
+        } else if (episodes.length === 1) {
+          const url = episodes[0];
+          if (url.includes("uqload.net")) {
+            const redirectURL = `film.html?title=${encodeURIComponent(item.title)}&link=${encodeURIComponent(url)}`;
+            window.location.href = redirectURL;
+          } else {
+            window.open(url, "_blank");
+          }
+        } else {
+          alert("Aucun lien disponible pour cet animé.");
         }
+      }
     });
-}
 
-// 📌 Mise en surbrillance du texte correspondant
-function highlightMatch(text, query) {
-    const regex = new RegExp(`(${query})`, "gi");
-    return text.replace(regex, "<strong style='color: red;'>$1</strong>");
-}
+    return card;
+  }
 
-// Ajouter un événement de défilement sur les images avec la souris maintenue
-function enableImageScroll() {
-    const moviesRows = document.querySelectorAll('.movies-row');
-    
-    moviesRows.forEach(row => {
-        let isMouseDown = false;
-        let startX;
-        let scrollLeft;
-
-        row.addEventListener('mousedown', (e) => {
-            e.preventDefault(); // Empêche la sélection de l'image lors du clic
-            isMouseDown = true;
-            startX = e.pageX - row.offsetLeft;
-            scrollLeft = row.scrollLeft;
-            row.style.cursor = 'grabbing'; // Change le curseur pour indiquer le mouvement
-        });
-
-        row.addEventListener('mouseleave', () => {
-            isMouseDown = false;
-            row.style.cursor = 'grab'; // Revenir au curseur "attraper" lorsqu'on sort de l'élément
-        });
-
-        row.addEventListener('mouseup', () => {
-            isMouseDown = false;
-            row.style.cursor = 'grab'; // Revenir au curseur "attraper" lorsqu'on relâche le clic
-        });
-
-        row.addEventListener('mousemove', (e) => {
-            if (!isMouseDown) return;
-            e.preventDefault();
-            const x = e.pageX - row.offsetLeft;
-            const scroll = (x - startX) * 2;  // Vitesse de défilement
-            row.scrollLeft = scrollLeft - scroll;
-        });
+  function renderList(container, items) {
+    container.innerHTML = "";
+    items.forEach(item => {
+      const title = item.title?.trim().toLowerCase();
+      if (!title || displayedTitles.has(title)) return;
+      if (!item.media || item.media.trim() === "") return;
+      container.appendChild(createCard(item));
+      displayedTitles.add(title);
     });
-}
+  }
 
-loadMovies();
+  // --- RECHERCHE (desktop & mobile, logique DRY) ---
 
-// Appeler la fonction après avoir chargé les films
-enableImageScroll();
+  function displayResults(results, resultBox, isMobile = false) {
+    resultBox.innerHTML = "";
+    results.forEach(item => {
+      if (!item.media || item.media.trim() === "") return;
+      const row = document.createElement("div");
+      row.classList.add("search-item");
+      const thumb = document.createElement("img");
+      thumb.onerror = () => row.remove();
+      thumb.src = item.media;
+      thumb.classList.add("small-thumbnail");
+      const name = document.createElement("span");
+      name.textContent = item.title;
+      row.append(thumb, name);
+      row.addEventListener("click", () => {
+        if (item.category === "film" && item.link) {
+          const url = `film.html?title=${encodeURIComponent(item.title)}&link=${encodeURIComponent(item.link)}`;
+          window.location.href = url;
+        } else if (item.category === "serie" && item.episodes?.length > 1) {
+          openPopup(item.title, item.episodes);
+        } else if (item.category === "anime") {
+          const episodes = extractEpisodes(item.description);
+          if (episodes.length > 1) {
+            openPopup(item.title, episodes);
+          } else if (episodes.length === 1) {
+            const url = episodes[0];
+            if (url.includes("uqload.net")) {
+              const redirectURL = `film.html?title=${encodeURIComponent(item.title)}&link=${encodeURIComponent(url)}`;
+              window.location.href = redirectURL;
+            } else {
+              window.open(url, "_blank");
+            }
+          } else {
+            alert("Aucun lien disponible pour cet animé.");
+          }
+        }
+        if (isMobile) {
+          mobileSearchBox.classList.remove("show");
+        }
+      });
+      resultBox.appendChild(row);
+    });
+    resultBox.style.display = resultBox.children.length ? "flex" : "none";
+  }
+
+  searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim().toLowerCase();
+    if (!query) {
+      searchResults.innerHTML = "";
+      searchResults.style.display = "none";
+      return;
+    }
+    const results = allData.filter(item =>
+      item.title?.toLowerCase().includes(query)
+    );
+    displayResults(results, searchResults, false);
+  });
+
+  mobileSearchInput.addEventListener("input", function(e){
+    const value = e.target.value.trim().toLowerCase();
+    if (!value) {
+      mobileSearchResults.innerHTML = "";
+      return;
+    }
+    const results = allData.filter(item =>
+      item.title?.toLowerCase().includes(value)
+    );
+    displayResults(results, mobileSearchResults, true);
+  });
+
+  // Fermer la recherche desktop au clic dehors
+  document.addEventListener("mousedown", (e) => {
+    if (searchResults.style.display === "flex" &&
+        !searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+      searchResults.style.display = "none";
+    }
+  });
+
+  // --- NAVBAR MOBILE ---
+
+  burgerMenu.onclick = function() {
+    mobileMenu.classList.toggle('open');
+    burgerMenu.classList.toggle('open');
+    mobileSearchBox.classList.remove('show');
+  };
+  loupeBtn.onclick = function() {
+    mobileSearchBox.classList.toggle('show');
+    loupeBtn.classList.toggle('active');
+    mobileSearchInput.focus();
+    mobileMenu.classList.remove('open');
+    burgerMenu.classList.remove('open');
+  };
+
+  // Ferme menu/recherche si click dehors (mobile seulement)
+  document.addEventListener('mousedown', function(e){
+    if(window.innerWidth < 800) {
+      if(!mobileMenu.contains(e.target) && !burgerMenu.contains(e.target)){
+        mobileMenu.classList.remove('open');
+        burgerMenu.classList.remove('open');
+      }
+      if(!mobileSearchBox.contains(e.target) && !loupeBtn.contains(e.target)){
+        mobileSearchBox.classList.remove('show');
+        loupeBtn.classList.remove('active');
+      }
+    }
+  });
+
+  // --- DONNÉES & RENDU ---
+
+  const [films, series, animes] = await Promise.all([
+    fetchData(filmURL),
+    fetchData(serieURL),
+    fetchData(animeURL),
+  ]);
+
+  films.forEach(f => {
+    f.category = "film";
+    f.link = extractLink(f.description);
+  });
+  series.forEach(s => {
+    s.category = "serie";
+    s.episodes = extractEpisodes(s.description);
+  });
+  animes.forEach(a => {
+    a.category = "anime";
+  });
+
+  allData = [...films, ...series, ...animes];
+
+  // Nouveautés : 20 plus récentes
+  const newReleases = allData
+    .filter(item => item.date && item.media && item.title)
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .filter(item => !displayedTitles.has(item.title.trim().toLowerCase()))
+    .slice(0, 20);
+
+  renderList(newReleasesContainer, newReleases);
+
+  // Films
+  renderList(
+    filmsContainer,
+    shuffleArray(films).filter(f => !displayedTitles.has(f.title.trim().toLowerCase())).slice(0, 20)
+  );
+
+  // Séries (un seul titre de base par série)
+  const seenSeries = new Set();
+  renderList(
+    seriesContainer,
+    shuffleArray(series).filter(s => {
+      const base = cleanTitle(s.title);
+      if (seenSeries.has(base)) return false;
+      seenSeries.add(base);
+      return !displayedTitles.has(s.title.trim().toLowerCase());
+    }).slice(0, 20)
+  );
+
+  // Animes (un seul titre de base par anime)
+  const seenAnimes = new Set();
+  renderList(
+    animesContainer,
+    shuffleArray(animes).filter(a => {
+      const base = cleanTitle(a.title);
+      if (seenAnimes.has(base)) return false;
+      seenAnimes.add(base);
+      return !displayedTitles.has(a.title.trim().toLowerCase());
+    }).slice(0, 20)
+  );
+});

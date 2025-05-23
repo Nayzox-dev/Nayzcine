@@ -6,27 +6,52 @@
     <meta name="description" content="Signalez un problème avec un film ou une série sur Nayzcine">
     <title>Signaler un problème - Nayzcine</title>
     <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="suggestions.css">
 </head>
+
 <body>
 
     <!-- Barre de navigation flottante -->
     <header class="navbar">
-        <div class="logo">Nayzcine</div>
-        <nav class="menu">
-            <a href="index2.html">Nouveauté</a>
-            <a href="suggestions.html">Suggestions</a>
-            <a href="report.html" class="active">Signaler</a>
-        </nav>
-        <div class="search-container">
-            <input type="text" id="search" placeholder="🔍 Rechercher...">
-            <div id="search-results"></div>
-        </div>
-        <!-- 🍔 Menu Burger -->
-        <button class="burger-menu">
-            <span>&#9776;</span> <!-- Symbole du hamburger -->
-        </button>
-    </header>    
+    <!-- Burger menu (mobile) -->
+    <div class="burger" id="burger-menu" aria-label="Ouvrir le menu" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- Logo au centre -->
+    <div class="logo">NAYZCINE</div>
+
+    <!-- Menu desktop -->
+    <nav class="menu" aria-label="Menu principal">
+      <a href="index2.html">Nouveauté</a>
+      <a href="suggestions.html">Suggestions</a>
+      <a href="report.html" class="active">Signaler</a>
+    </nav>
+
+    <!-- Barre de recherche desktop -->
+    <div class="search-container">
+      <input type="text" id="search" placeholder="🔍 Rechercher..." autocomplete="off">
+      <div id="search-results"></div>
+    </div>
+
+    <!-- Loupe mobile -->
+    <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" alt="Rechercher" class="loupe-icone" id="loupe-btn" />
+
+    <!-- Menu mobile -->
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Menu mobile">
+      <a href="index2.html">Nouveauté</a>
+      <a href="suggestions.html">Suggestions</a>
+      <a href="report.html" class="active">Signaler</a>
+    </nav>
+    <!-- Barre de recherche mobile -->
+    <div class="mobile-search-box" id="mobile-search-box">
+      <input type="text" id="mobile-search" placeholder="Rechercher..." autocomplete="off">
+      <div id="mobile-search-results"></div>
+    </div>
+  </header>    
 
 <!-- Section des suggestions -->
 <main id="suggestions">
@@ -62,73 +87,13 @@
     </section>
 </main>
 
-<script>
-    const webhookURL = "https://discord.com/api/webhooks/1360730648016584955/2_dTwlYfUwEc2nvV4IqvGYAtmp8WzHmVSYqIxsj93Ou2b372eJ97dG631huZCYgdcBf8"; // Mets ton vrai lien ici
+    <!-- Bloc POPUP pour les épisodes -->
+    <div id="popup">
+        <div id="popup-content"></div>
+    </div>
 
-    document.getElementById("suggestion-form").addEventListener("submit", async function(event) {
-        event.preventDefault();
-
-        const form = event.target;
-        const formData = new FormData(form);
-        const title = formData.get("title");
-        const type = formData.get("type");
-        const description = formData.get("problem_description");
-
-        const payload = {
-            username: "🛠️ Signalement de problème",
-            avatar_url: "https://i.imgur.com/Zz6v4gk.png",
-            embeds: [
-                {
-                    title: "🚨 Problème signalé",
-                    description: "Un utilisateur a signalé un souci via le site.",
-                    color: 0x5865F2,
-                    fields: [
-                        {
-                            name: "🎬 Titre concerné",
-                            value: `> ${title}`
-                        },
-                        {
-                            name: "📺 Type",
-                            value: `> ${type}`
-                        },
-                        {
-                            name: "❗ Description du problème",
-                            value: `> ${description}`
-                        }
-                    ],
-                    footer: {
-                        text: "Formulaire de signalement",
-                        icon_url: "https://i.imgur.com/Zz6v4gk.png"
-                    },
-                    timestamp: new Date().toISOString()
-                }
-            ]
-        };
-
-        try {
-            const response = await fetch(webhookURL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            });
-
-            if (response.ok) {
-                document.getElementById("suggestion-response").style.display = "block";
-                form.reset();
-            } else {
-                alert("❌ Une erreur est survenue, veuillez réessayer.");
-            }
-        } catch (error) {
-            alert("❌ Une erreur s'est produite, vérifiez votre connexion.");
-        }
-    });
-</script>
-
-    <script src="suggestions.js"></script>
-    <!-- <script src="f12.js"></script> -->
-    <script src="phone.js"></script>
+    <script src="report.js"></script>
+    <script src="script.js"></script>
     
 </body>
 </html>

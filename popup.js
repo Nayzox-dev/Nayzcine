@@ -1,28 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Script chargé, affichage de la popup...");
+    console.log("Script chargé, affichage de la popuppp...");
 
-    let popup = document.getElementById("popup");
+    let popuppp = document.getElementById("popuppp");
     let overlay = document.getElementById("overlay");
 
-    if (popup && overlay) {
+    if (popuppp && overlay) {
         setTimeout(function() {
-            console.log("Affichage de la popup...");
-            popup.style.display = "block";
+            console.log("Affichage de la popuppp...");
+            popuppp.style.display = "block";
             overlay.style.display = "block";
-        }, 1000); // Affichage après 3 secondes
+        }, 1000); // Affichage après 1 seconde (modifie si besoin)
     } else {
-        console.error("Popup ou overlay introuvable !");
+        console.error("Popuppp ou overlay introuvable !");
     }
 });
 
-// Fonction pour fermer la popup
-function closePopup() {
-    document.getElementById("popup").style.display = "none";
+// Fonction pour fermer la popuppp
+function closePopuppp() {
+    document.getElementById("popuppp").style.display = "none";
     document.getElementById("overlay").style.display = "none";
 }
-
-
-
-///////////////////////////////////
-
-

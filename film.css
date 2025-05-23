@@ -1,113 +1,117 @@
 body {
-    background-color: black;
-    color: white;
+    background: #000;
+    color: #fff;
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Arial', Arial, sans-serif;
+    text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    text-align: center;
 }
 
-/* Style de la navbar */
+/* Navbar */
 .navbar {
-    background-color: #333;
+    background: #333;
     padding: 10px;
     position: fixed;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     width: 100%;
     z-index: 10;
+    box-sizing: border-box;
 }
 
 /* Contenu principal */
 .content {
     width: 100%;
     max-width: 1200px;
-    padding: 20px;
-    margin-top: 100px; /* Pour éviter que le contenu chevauche la navbar */
+    padding: 24px 2vw 40px 2vw;
+    margin-top: 68px; /* Ajuste selon la hauteur de ta navbar */
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
 /* Titre du film */
 #movie-title {
     font-size: 2.5em;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #ffffff; /* Couleur blanche pour le titre */
+    font-weight: 900;
+    margin-bottom: 22px;
+    margin-top: 0;
+    color: #fff;
+    letter-spacing: 1.2px;
+    text-shadow: 0 2px 16px #e5091442;
 }
 
-/* Conteneur de la vidéo */
+/* Container vidéo responsive */
 .video-container {
     position: relative;
-    width: 70%; /* Définit la largeur à 70% de l'écran */
-    padding-top: 56.25%; /* Proportion 16:9 */
+    width: 70%;
+    max-width: 860px;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-    margin-bottom: 20px; /* Espacement sous la vidéo */
+    box-shadow: 0 4px 24px rgba(0,0,0,0.65), 0 1.5px 14px #e509143a;
+    margin-bottom: 24px;
     display: flex;
-    justify-content: center; /* Centrer horizontalement */
+    justify-content: center;
+    align-items: center;
 }
 
-/* Style de l'iframe vidéo */
+/* Fallback pour vieux navigateurs */
+@supports not (aspect-ratio: 16 / 9) {
+    .video-container {
+        height: 0;
+        padding-top: 56.25%;
+    }
+    .video-container iframe {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+    }
+}
+
 iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     border: none;
+    display: block;
 }
 
-/* 🔥 Overlay anti-pub (empêche les clics sur les popups invisibles) */
+/* Overlay anti-pub */
 .iframe-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8); /* Fond sombre pour mieux bloquer les pubs */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
     z-index: 2;
-    pointer-events: none; /* Empêche toute interaction avec les pubs */
+    pointer-events: none;
 }
 
-/* Affichage du nombre d'épisodes */
+/* Nombre d'épisodes */
 .episode-count {
-    font-size: 1.5em;
-    margin-top: 20px;
-    color: #ecf0f1;
-}
-/* Style général */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #000;
-    color: white;
-    margin: 0;
+    font-size: 1.4em;
+    margin-top: -10px;
+    color: #e50914;
+    font-weight: bold;
+    letter-spacing: 0.8px;
 }
 
 /* Overlay sombre */
 #overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7);
     display: none;
     z-index: 999;
 }
 
 /* Popup premium */
-#popup {
+#popuppp {
     position: fixed;
-    top: 50%;
-    left: 50%;
+    top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     background: #141414;
     padding: 30px;
@@ -116,18 +120,16 @@ body {
     display: none;
     z-index: 1000;
     width: 350px;
-    max-width: 90%;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
-    border: 2px solid rgba(255, 0, 0, 0.5);
+    max-width: 90vw;
+    box-shadow: 0 0 20px rgba(255,0,0,0.8);
+    border: 2px solid rgba(255,0,0,0.5);
 }
-
-#popup h2 {
+#popuppp h2 {
     color: #e50914;
     font-size: 22px;
     margin-bottom: 15px;
 }
-
-#popup p {
+#popuppp p {
     font-size: 16px;
     margin-bottom: 20px;
 }
@@ -139,43 +141,68 @@ button {
     cursor: pointer;
     border-radius: 8px;
     font-size: 16px;
-    transition: background 0.3s ease, transform 0.2s ease;
+    transition: background 0.3s, transform 0.2s;
     font-weight: bold;
 }
-
-/* Bouton Installer */
 .install-btn {
     background: #e50914;
     color: white;
     width: 100%;
     margin-bottom: 10px;
 }
-
 .install-btn:hover {
     background: #b20710;
     transform: scale(1.05);
 }
-
-/* Bouton Fermer */
 .close-btn {
     background: #333;
     color: white;
     width: 100%;
 }
-
 .close-btn:hover {
     background: #444;
     transform: scale(1.05);
 }
 
-/* Stylisation pour les petits écrans (mobile-friendly) */
-@media (max-width: 768px) {
-    #movie-title {
-        font-size: 2em; /* Réduction de la taille du titre sur mobile */
+/* ------ Responsive ------ */
+@media (max-width: 1024px) {
+    .content {
+        max-width: 98vw;
+        padding: 12px 2vw 28px 2vw;
+        margin-top: 11vw;
     }
-
     .video-container {
-        width: 100%;
-        padding-top: 56.25%; /* Pour maintenir la proportion 16:9 */
+        width: 98vw;
+        max-width: 98vw;
+        border-radius: 3vw;
+    }
+    #movie-title {
+        font-size: 2em;
+        margin-bottom: 4vw;
+    }
+}
+@media (max-width: 700px) {
+    .content {
+        margin-top: 16vw;
+        padding: 7px 2vw 16vw 2vw;
+    }
+    .video-container {
+        width: 100vw;
+        max-width: 100vw;
+        border-radius: 0;
+        margin-bottom: 14px;
+    }
+    #movie-title {
+        font-size: 5vw;
+        margin-bottom: 4vw;
+    }
+    .episode-count {
+        font-size: 3.6vw;
+        margin-top: 0;
+    }
+    #popuppp {
+        width: 90vw;
+        padding: 14vw 3vw 7vw 3vw;
+        font-size: 4vw;
     }
 }

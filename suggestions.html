@@ -6,38 +6,61 @@
     <meta name="description" content="Faites vos suggestions pour Nayzcine !">
     <title>Suggestions - Nayzcine</title>
     <link rel="icon" type="image/png" href="logo.png">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="suggestions.css">
 </head>
-<body>
 
-    <!-- Barre de navigation flottante -->
+<body>
+    <!-- Barre de navigation premium -->
     <header class="navbar">
-        <div class="logo">Nayzcine</div>
-        <nav class="menu">
-            <a href="index2.html">Nouveauté</a>
-            <a href="suggestions.html" class="active">Suggestions</a>
-            <a href="report.html">Signaler</a>
-        </nav>
-        <div class="search-container">
-            <input type="text" id="search" placeholder="🔍 Rechercher...">
-            <div id="search-results"></div>
-        </div>
-        <!-- 🍔 Menu Burger -->
-        <button class="burger-menu">
-            <span>&#9776;</span>
-        </button>
-    </header>        
+    <!-- Burger menu (mobile) -->
+    <div class="burger" id="burger-menu" aria-label="Ouvrir le menu" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- Logo au centre -->
+    <div class="logo">NAYZCINE</div>
+
+    <!-- Menu desktop -->
+    <nav class="menu" aria-label="Menu principal">
+      <a href="index2.html">Nouveauté</a>
+      <a href="suggestions.html" class="active">Suggestions</a>
+      <a href="report.html">Signaler</a>
+    </nav>
+
+    <!-- Barre de recherche desktop -->
+    <div class="search-container">
+      <input type="text" id="search" placeholder="🔍 Rechercher..." autocomplete="off">
+      <div id="search-results"></div>
+    </div>
+
+    <!-- Loupe mobile -->
+    <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" alt="Rechercher" class="loupe-icone" id="loupe-btn" />
+
+    <!-- Menu mobile -->
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Menu mobile">
+      <a href="index2.html">Nouveauté</a>
+      <a href="suggestions.html" class="active">Suggestions</a>
+      <a href="report.html">Signaler</a>
+    </nav>
+    <!-- Barre de recherche mobile -->
+    <div class="mobile-search-box" id="mobile-search-box">
+      <input type="text" id="mobile-search" placeholder="Rechercher..." autocomplete="off">
+      <div id="mobile-search-results"></div>
+    </div>
+  </header>        
 
     <!-- Section des suggestions -->
     <main id="suggestions">
         <section class="category">
             <h2>Faites une suggestion</h2>
-            <form method="POST" id="suggestion-form">
+            <form method="POST" id="suggestion-form" autocomplete="off">
                 <label>
                     Nom du film ou série :
                     <input type="text" name="title" placeholder="Nom du film ou série" required>
                 </label>
-
                 <label>
                     Type :
                     <select name="type" required>
@@ -46,76 +69,20 @@
                         <option value="Série">Série</option>
                     </select>
                 </label>
-
                 <button type="submit">Envoyer</button>
             </form>
-
-            <div id="suggestion-response" style="display: none; color: lightgreen; margin-top: 15px; font-size: 1.2rem;">
+            <div id="suggestion-response">
                 ✅ Votre suggestion a été envoyée ! Elle sera ajoutée dès que possible dans <strong>Nouveauté</strong> !
             </div>
         </section>
     </main>
 
-    <script>
-        const webhookURL = "https://discord.com/api/webhooks/1360730467007201483/IMhixaeNJLtSWgzk0Su0Xtfqm_Qb_Ur7wfyD6boSL1SJjgcXZLYypL4tR2UPWhGyKL3C";
-
-        document.getElementById("suggestion-form").addEventListener("submit", async function(event) {
-            event.preventDefault();
-
-            const form = event.target;
-            const formData = new FormData(form);
-            const title = formData.get("title");
-            const type = formData.get("type");
-
-            const payload = {
-                username: "🎬 Suggestion du site",
-                avatar_url: "https://i.imgur.com/Zz6v4gk.png",
-                embeds: [
-                    {
-                        title: "💡 Nouvelle suggestion",
-                        description: "Une nouvelle idée a été soumise par un utilisateur.",
-                        color: 0x5865F2,
-                        fields: [
-                            {
-                                name: "🎬 Titre proposé",
-                                value: `> ${title}`
-                            },
-                            {
-                                name: "📺 Type",
-                                value: `> ${type}`
-                            }
-                        ],
-                        footer: {
-                            text: "Envoyé depuis le formulaire de suggestion",
-                            icon_url: "https://i.imgur.com/Zz6v4gk.png"
-                        },
-                        timestamp: new Date().toISOString()
-                    }
-                ]
-            };
-
-            try {
-                const response = await fetch(webhookURL, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                if (response.ok) {
-                    document.getElementById("suggestion-response").style.display = "block";
-                    form.reset();
-                }
-            } catch (error) {
-                // Erreurs silencieuses
-            }
-        });
-    </script>
+    <!-- === Bloc POPUP pour les épisodes, à garder juste avant </body> === -->
+    <div id="popup" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; z-index:999; align-items:center; justify-content:center; background:rgba(0,0,0,0.8);">
+      <div id="popup-content" style="max-width:95vw; max-height:85vh; margin:auto; background:#181818; border-radius:15px; padding:20px; color:white; box-shadow:0 0 20px #000; display:flex; flex-direction:column; align-items:center;"></div>
+    </div>
 
     <script src="suggestions.js"></script>
-    <!-- <script src="f12.js"></script> -->
-    <script src="phone.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>

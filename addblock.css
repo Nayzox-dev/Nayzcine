@@ -1,0 +1,34 @@
+/* Conteneur de la vidéo */
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* ratio 16:9 */
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Masquer les pubs éventuelles au-dessus de l’iframe */
+.ad-overlay-blocker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* laisse passer les clics vers la vidéo */
+    z-index: 2;
+    background: transparent;
+}
+
+/* Empêcher les faux clics et redirections */
+body {
+    pointer-events: auto !important;
+}

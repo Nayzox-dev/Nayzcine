@@ -43,31 +43,79 @@
     <link rel="icon" type="image/png" href="https://nayzcine.fr/logo.png">
     <link rel="stylesheet" href="porte.css">
 
-    <link rel="stylesheet" href="style.css">    
+    <link rel="stylesheet" href="style.css">   
+     
 </head>
 
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nayzcine - Maintenance</title>
-    <link rel="stylesheet" href="style.css">
-</head>
 <body>
-    <div class="overlay">
-        <div class="container">
-            <div class="content">
-                <h1>Maintenance !</h1>
-                <p>Le site Nayzcine est actuellement en maintenance.</p>
-                <p>Il sera de nouveau accessible dans la nuit du 23 au 24.</p>
-            </div>
-        </div>
+  <!-- Barre de navigation flottante -->
+  <header class="navbar">
+    <!-- Burger menu (mobile) -->
+    <div class="burger" id="burger-menu" aria-label="Ouvrir le menu" tabindex="0">
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
-</body>
 
+    <!-- Logo au centre -->
+    <div class="logo">NAYZCINE</div>
+
+    <!-- Menu desktop -->
+    <nav class="menu" aria-label="Menu principal">
+      <a href="index2.html" class="active">Nouveauté</a>
+      <a href="suggestions.html">Suggestions</a>
+      <a href="report.html">Signaler</a>
+    </nav>
+
+    <!-- Barre de recherche desktop -->
+    <div class="search-container">
+      <input type="text" id="search" placeholder="🔍 Rechercher..." autocomplete="off">
+      <div id="search-results"></div>
+    </div>
+
+    <!-- Loupe mobile -->
+    <img src="https://cdn-icons-png.flaticon.com/512/54/54481.png" alt="Rechercher" class="loupe-icone" id="loupe-btn" />
+
+    <!-- Menu mobile -->
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Menu mobile">
+      <a href="index2.html" class="active">Nouveauté</a>
+      <a href="suggestions.html">Suggestions</a>
+      <a href="report.html">Signaler</a>
+    </nav>
+    <!-- Barre de recherche mobile -->
+    <div class="mobile-search-box" id="mobile-search-box">
+      <input type="text" id="mobile-search" placeholder="Rechercher..." autocomplete="off">
+      <div id="mobile-search-results"></div>
+    </div>
+  </header>
+
+  <!-- Sections catégories -->
+  <main id="categories">
+    <section class="category">
+      <h2>Nouveautés</h2>
+      <div class="movies-row" id="new-releases"></div>
+    </section>
+    <section class="category">
+      <h2>Films</h2>
+      <div class="movies-row" id="films"></div>
+    </section>
+    <section class="category">
+      <h2>Séries</h2>
+      <div class="movies-row" id="series"></div>
+    </section>
+    <section class="category">
+      <h2>Animés</h2>
+      <div class="movies-row" id="animes"></div>
+    </section>
+  </main>
+
+    <!-- Bloc POPUP pour les épisodes -->
+    <div id="popup">
+        <div id="popup-content"></div>
+    </div>
+
+    <script src="report.js"></script>
     <script src="script.js"></script>
-    <script src=""></script>
     
 </body>
 </html>
