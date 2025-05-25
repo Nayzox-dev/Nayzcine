@@ -1,5 +1,5 @@
 body {
-    background: #000;
+    background: #000000;
     color: #fff;
     margin: 0;
     min-height: 100vh;
@@ -12,7 +12,7 @@ body {
 
 /* Navbar */
 .navbar {
-    background: #333;
+    background: #000000;
     padding: 10px;
     position: fixed;
     top: 0; left: 0;
@@ -50,10 +50,10 @@ body {
     width: 70%;
     max-width: 860px;
     aspect-ratio: 16 / 9;
-    background: #000;
+    background: #000000;
     border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.65), 0 1.5px 14px #e509143a;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.65), 0 1.5px 14px #e509143a;
     margin-bottom: 24px;
     display: flex;
     justify-content: center;
@@ -113,7 +113,7 @@ iframe {
     position: fixed;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    background: #141414;
+    background: #000000;
     padding: 30px;
     border-radius: 12px;
     text-align: center;
