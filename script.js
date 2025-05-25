@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("popup-close-inside").addEventListener("click", () => {
       popup.style.display = "none";
     });
-    // Fermer popup au clic dehors
+
     setTimeout(() => {
       document.addEventListener("mousedown", closeOnClickOutside);
     }, 10);
