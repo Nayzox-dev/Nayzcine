@@ -1,60 +1,109 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Vérification Google Search Console -->
-    <meta name="google-site-verification" content="B1Z9IH0-iclzu-H3aOV504tAItt9Wn3DVSZThAiBe-A" />
 
-    <!-- Balises SEO -->
-    <title>Nayzcine - Streaming</title>
-    <meta name="description" content="Accédez à Nayzcine, votre plateforme de streaming gratuit en HD. Films et séries sans abonnement !">
-    <meta name="keywords" content="Nayzcine, streaming gratuit, films en ligne, séries HD, site de streaming">
-    <meta name="author" content="Nayzox">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://nayzcine.fr">
+    <!-- SEO de base -->
+    <title>Nayzcine - Site momentanément inaccessible</title>
+    <meta name="description" content="Nayzcine est temporairement inaccessible. Une mise à jour sera déployée prochainement.">
 
-    <!-- Open Graph (Facebook, LinkedIn) -->
-    <meta property="og:title" content="Nayzcine - Accès Streaming Gratuit">
-    <meta property="og:description" content="Films et séries en streaming HD gratuits sur Nayzcine. Cliquez pour entrer !">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Nayzcine - Maintenance">
+    <meta property="og:description" content="Le site Nayzcine est en maintenance et sera de retour prochainement.">
     <meta property="og:image" content="https://nayzcine.fr/logo.png">
     <meta property="og:url" content="https://nayzcine.fr">
     <meta property="og:type" content="website">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Nayzcine - Accès Streaming Gratuit">
-    <meta name="twitter:description" content="Films et séries en streaming HD gratuits sur Nayzcine. Cliquez pour entrer !">
+    <meta name="twitter:title" content="Nayzcine - Maintenance">
+    <meta name="twitter:description" content="Le site Nayzcine est en maintenance et sera de retour prochainement.">
     <meta name="twitter:image" content="https://nayzcine.fr/logo.png">
 
-    <!-- JSON-LD (Google Logo) -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Nayzcine",
-        "url": "https://nayzcine.fr",
-        "logo": "https://nayzcine.fr/logo.png"
-    }
-    </script>
-
-    <!-- Favicon & Styles -->
     <link rel="icon" type="image/png" href="https://nayzcine.fr/logo.png">
-    <link rel="stylesheet" href="porte.css">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background: #14181c url('catalogue.png') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+        }
+        body {
+            position: relative;
+            min-height: 100vh;
+        }
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(10,13,18,0.85);
+            backdrop-filter: blur(7px);
+            z-index: 0;
+        }
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            max-width: 420px;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            background: rgba(30,33,40,0.97);
+            border-radius: 22px;
+            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.21);
+            padding: 42px 30px 32px 30px;
+            text-align: center;
+        }
+        .content img {
+            width: 70px;
+            height: 70px;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            user-select: none;
+            pointer-events: none;
+        }
+        .content h1 {
+            color: #fff;
+            font-size: 2.3rem;
+            margin: 0 0 16px 0;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+        .content h2 {
+            color: #dc2626;
+            margin-bottom: 18px;
+            margin-top: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .content p {
+            color: #eee;
+            font-size: 1.07rem;
+            margin-bottom: 0;
+            margin-top: 0;
+        }
+        @media (max-width: 520px) {
+            .content { max-width: 94vw; padding: 20px 7vw 20px 7vw; }
+            .content h1 { font-size: 1.6rem; }
+        }
+    </style>
 </head>
-    
 <body>
-    <div class="container">
-        <img src="catalogue.png" alt="Arrière-plan" class="background">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1><strong>Nayzcine</strong></h1>
-            <h3>Regardez vos films et séries préférés <strong>Gratuit !</strong></h3>
-            <br>
-            <a href="index2.html" class="access-button">Accéder au site</a>
-        </div>
+    <div class="overlay"></div>
+    <div class="content">
+        <img src="https://nayzcine.fr/logo.png" alt="Nayzcine Logo">
+        <h1>Nayzcine</h1>
+        <h2>Site momentanément inaccessible</h2>
+        <p>
+            Nayzcine est actuellement indisponible.<br>
+            <b>Une mise à jour sera déployée prochainement.</b>
+        </p>
+        <p style="color:#9b9b9b;font-size:0.97rem;margin-top:26px;">
+            Aucune date de réouverture n'est communiquée pour l'instant.
+        </p>
     </div>
-
 </body>
 </html>
